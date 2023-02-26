@@ -1,0 +1,177 @@
+version: '3.5'
+services:
+
+# ============================================================================
+# ============================================================================
+#                           AUTOTRUCK-TRUCKTRIX WEB APP
+# ============================================================================
+# ============================================================================
+
+    yard_automation_app:
+        image: registry.gitlab.cc-asp.fraunhofer.de/helyos/helyos-release-registry/autotruck_webclient:wide-1.0.4
+
+        ports: 
+            - 3080:3080            
+                
+        command: ["node", "express.js"]
+
+        networks:
+            - control-tower-net
+            
+
+
+
+
+# # ============================================================================
+# # ============================================================================
+    # #                       TRUCK SIMULATOR - TRUCK + TRAILER 
+# # ============================================================================
+# # ============================================================================
+
+
+    agent_simulator:
+        image: helyos2020/helyos_agent_slim_simulator:0.2.3
+
+        volumes:
+            - ./geometry-trailer.json:/app/geometry.json
+            
+        environment:
+
+            # AGENT ID
+            - UUID=Bb34069fc5-fdgs-434b-b87e-f19c5435113 
+            - ASSIGNMENT_FORMAT=autotruck-path  # fixed | trajectory | straight_to_destination | autotruck-path 
+            - NAME=MY_TRUCK
+            - X0=0
+            - Y0=-50000
+            - ORIENTATION=0
+            - VELOCITY=1.8 
+            - VEHICLE_PARTS=2
+
+            # RABBITMQ 
+            - ENCRYPT=none  # none | agent | helyos | helyos-agent
+            - RABBITMQHOST=local_message_broker 
+            - RABBITMQPORT=5672
+
+            # RBMQ ACCOUNT
+            - RBMQ_USERNAME=${HELYOS_RBMQ_USERNAME}
+            - RBMQ_PASSWORD=${HELYOS_RBMQ_PASSWORD}
+            # OR
+            - REGISTRATION_TOKEN=0000-0000-0000-0000-0000
+
+        networks:
+            - control-tower-net   
+
+        depends_on:
+            - helyos_core     
+
+        command: ["python","-u", "main.py"]
+
+        deploy:
+            restart_policy:
+                condition: on-failure
+                delay: 15s
+                max_attempts: 5
+                window: 60s    
+
+
+
+# # ============================================================================
+# # ============================================================================
+# #                           BACKEND SERVER
+# # ============================================================================
+# # ============================================================================
+    db:
+        image: postgres:10
+        ports:
+            - "5432:5432"
+        volumes:
+            - postgres_data:/var/lib/postgresql/data/
+        environment:
+            POSTGRES_HOST_AUTH_METHOD: "trust"
+        networks:
+            - control-tower-net
+
+
+    helyos_core:
+        image: helyos2020/helyos_core:1.8.1
+
+        ports:
+            - 5002:5002  # Websocket
+            - 5000:5000  # GraphQL
+            - 8080:8080  # HelyOS Dashboard
+
+
+        volumes:
+            - ./settings/licenses:/licenses/
+            - ./settings/db_initial_data/:/db_initial_data/
+            - ./settings/rsa_keys/helyos_private.key:/.ssl_keys/helyos_private.key:ro
+
+        environment:
+            # DATABASE 
+            - PGUSER=postgres 
+            - PGPASSWORD=null
+            - PGHOST=db 
+            - PGDATABASE=autotruck 
+            - PGPORT=5432
+            
+            # GRAPHQL VARIABLES
+            - GQLPORT=5000
+
+            # RABBITMQ 
+            - ENCRYPT=none  # none | agent | helyos | helyos-agent
+            - RABBITMQHOST=local_message_broker # local_message_broker | rabbitmq.ivi.fraunhofer.de 
+            - RABBITMQPORT=5672
+            - RBMQ_API_PORT=15672       
+
+
+            # RBMQ ACCOUNTS
+            - CREATE_RBMQ_ACCOUNTS=True
+            - RBMQ_ADMIN_USERNAME=${HELYOS_RBMQ_USERNAME} # set if CREATE_RBMQ_ACCOUNTS is True
+            - RBMQ_ADMIN_PASSWORD=${HELYOS_RBMQ_PASSWORD} # set if CREATE_RBMQ_ACCOUNTS is True
+
+            # AGENT => HELYOS
+            - AGENTS_UL_EXCHANGE=${AGENTS_UL_EXCHANGE}
+            - CHECK_IN_QUEUE=${CHECK_IN_QUEUE}
+            - AGENT_UPDATE_QUEUE=${AGENT_UPDATE_QUEUE}
+            
+            # HELYOS => AGENT
+            - AGENTS_DL_EXCHANGE=${AGENTS_DL_EXCHANGE}
+
+        networks:
+            - control-tower-net
+
+        depends_on:
+            - db
+            - local_message_broker
+
+
+
+# # ============================================================================
+# # ============================================================================
+# #                          MESSAGE-BROKER - RABBITMQ 
+# # ============================================================================
+# # ============================================================================
+
+    local_message_broker:
+        image:  rabbitmq:3-management
+
+        ports: 
+            - 5672:5672          
+            - 15672:15672        
+
+        networks:
+            - control-tower-net
+
+
+
+
+
+networks:
+    control-tower-net:
+        name: control-tower-net
+        external: true
+
+
+volumes:
+    postgres_data:
+        external: false
