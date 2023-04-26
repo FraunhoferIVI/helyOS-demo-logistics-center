@@ -1,6 +1,6 @@
-# AutoTruck - Yard Automation Demonstration. 
+# AutoTruck - Yard Automation Demonstration
 
-The AutoTruck was a project that aimed the automation of logistic centers.
+The [AutoTruck project](https://www.ivi.fraunhofer.de/en/research-fields/autonomous-systems/autotruck.html) aimed for the automation of trucks in logistic centers.
 
 Its implementation was accomplished through the use of the [helyOS framework](https://helyos-manual.readthedocs.io/en/latest/) and the TruckTrix&reg; path planner.<br>
 
@@ -30,7 +30,7 @@ docker-compose up -d
 
 ## Open the application
 
-* Autotruck-Trucktrix (it will automatically connect to helyOS)
+* Autotruck-Trucktrix web app (it will automatically connect to your local helyOS instance)
 
 [http://localhost:3080](http://localhost:3080/)
 
@@ -42,7 +42,7 @@ docker-compose up -d
 
  ## To restart vehicle simulator
 ```
- docker-compose restart  agent_simulator
+ docker-compose restart agent_simulator
  ```
 
  ## To restart application
@@ -60,7 +60,7 @@ The (-v) will delete the database.
 
 # Exploring the helyOS backend
 
-The AutoTruck app uses helyOS as backend.  You can access the helyOS dasboard to configure the backend.
+The AutoTruck app uses helyOS as backend. You can access the helyOS dasboard to configure the backend.
 
 
 ## helyOS Dasboard
@@ -81,11 +81,11 @@ TruckTrix&reg; is a robust multi-joint path planner developed by Fraunhofer IVI.
 The choice of which path planner is used by the application can be set up in helyOS dashboard. 
 So you can choose the AutoTruck app to use the online TruckTrix path planer or the local clothoid path planner.
 
-To utilize TruckTrix,  it is necessary to request an API-key from Fraunhofer IVI ( trucktrix [at] ivi . fraunhofer . de ).
+To utilize TruckTrix, it is necessary to request an API-key from Fraunhofer IVI ( trucktrix [at] ivi . fraunhofer . de ).
 
 The API-key must be added in `settings/licenses/service_licenses.ini` or saved in the *trucktrix* API-key field in http://localhost:8080/dashboard/#/all-services.
 
-In the helyOS dashboard `Microservices` view, disable the local_path_planner and enable the TruckTrix service.
+In the helyOS dashboard `Microservices` view, disable the `local_path_planner` and enable the TruckTrix service.
 
 <br>
 
@@ -97,7 +97,7 @@ Using the GraphQL language, you can programmatically access the complete yard da
 
 
 
-## Contact
+# Contact
 helyos [at] fraunhofer . ivi . de (without spaces)
 
 

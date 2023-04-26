@@ -1,7 +1,5 @@
 # Clothoid Microservice
-This microservice calculates a clothoid and converts it to the autotruck format.
-
-
+This microservice calculates a clothoid from a start to a target pose and converts it to the AutoTruck-TruckTrix format.
 
 ### Build
 
