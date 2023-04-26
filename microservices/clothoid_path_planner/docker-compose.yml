@@ -1,0 +1,33 @@
+version: "3.5" 
+services:
+
+
+
+
+# ============================================================================
+# ============================================================================
+#                           HELLO-HELYOS USER INTERFACE
+# ============================================================================
+# ============================================================================
+  microservice:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: local_planner_service
+
+    ports:
+      - "9000:9000"
+
+    restart: always
+
+    networks:
+      - control-tower-net
+
+    volumes:
+        - ./:/app
+
+networks:
+    control-tower-net:
+        name: control-tower-net
+        external: true

@@ -8,7 +8,7 @@ services:
 # ============================================================================
 
     yard_automation_app:
-        image: registry.gitlab.cc-asp.fraunhofer.de/helyos/helyos-release-registry/autotruck_webclient:wide-1.0.4
+        image: autotruck/autotruck_webclient:2.0.0-rc6
 
         ports: 
             - 3080:3080            
@@ -18,6 +18,31 @@ services:
         networks:
             - control-tower-net
             
+
+
+# ============================================================================
+# ============================================================================
+#                  LOCAL PATH PLANNER - WHEN TRUCKTRIX IS NOT AVAILABLE
+# ============================================================================
+# ============================================================================
+
+    local_planner_service:
+        build: 
+            context: ./microservices/clothoid_path_planner
+            dockerfile: Dockerfile
+
+        container_name: local_planner_service
+
+        ports:
+        - "9000:9000"
+
+        restart: always
+
+        networks:
+        - control-tower-net
+
+        volumes:
+            - ./microservices/clothoid_path_planner/:/app
 
 
 
@@ -30,7 +55,7 @@ services:
 
 
     agent_simulator:
-        image: helyos2020/helyos_agent_slim_simulator:0.2.3
+        image: helyosframework/helyos_agent_slim_simulator:0.4.0
 
         volumes:
             - ./geometry-trailer.json:/app/geometry.json
@@ -41,22 +66,16 @@ services:
             - UUID=Bb34069fc5-fdgs-434b-b87e-f19c5435113 
             - ASSIGNMENT_FORMAT=autotruck-path  # fixed | trajectory | straight_to_destination | autotruck-path 
             - NAME=MY_TRUCK
-            - X0=0
-            - Y0=-50000
-            - ORIENTATION=0
+            - X0=-30000
+            - Y0=0
+            - ORIENTATION=0.329
             - VELOCITY=1.8 
             - VEHICLE_PARTS=2
 
             # RABBITMQ 
-            - ENCRYPT=none  # none | agent | helyos | helyos-agent
             - RABBITMQHOST=local_message_broker 
             - RABBITMQPORT=5672
-
-            # RBMQ ACCOUNT
-            - RBMQ_USERNAME=${HELYOS_RBMQ_USERNAME}
-            - RBMQ_PASSWORD=${HELYOS_RBMQ_PASSWORD}
-            # OR
-            - REGISTRATION_TOKEN=0000-0000-0000-0000-0000
+            - REGISTRATION_TOKEN=0001-0002-0003-0000-0004
 
         networks:
             - control-tower-net   
@@ -74,10 +93,29 @@ services:
                 window: 60s    
 
 
+# # ============================================================================
+# # ============================================================================
+# #                          MESSAGE-BROKER - RABBITMQ 
+# # ============================================================================
+# # ============================================================================
+
+    local_message_broker:
+        image:  rabbitmq:3-management
+
+        ports: 
+            - 5672:5672          
+            - 15672:15672        
+
+        networks:
+            - control-tower-net
+
+
+
+
 
 # # ============================================================================
 # # ============================================================================
-# #                           BACKEND SERVER
+# #                           HELYOS - SYSTEM INTEGRATION
 # # ============================================================================
 # # ============================================================================
     db:
@@ -93,7 +131,7 @@ services:
 
 
     helyos_core:
-        image: helyos2020/helyos_core:1.8.1
+        image: helyosframework/helyos_core:2.0.0-rc12
 
         ports:
             - 5002:5002  # Websocket
@@ -118,9 +156,8 @@ services:
             - GQLPORT=5000
 
             # RABBITMQ 
-            - ENCRYPT=none  # none | agent | helyos | helyos-agent
-            - RABBITMQHOST=local_message_broker # local_message_broker | rabbitmq.ivi.fraunhofer.de 
-            - RABBITMQPORT=5672
+            - RBMQ_HOST=local_message_broker 
+            - RBMQ_PORT=5672
             - RBMQ_API_PORT=15672       
 
 
@@ -128,14 +165,7 @@ services:
             - CREATE_RBMQ_ACCOUNTS=True
             - RBMQ_ADMIN_USERNAME=${HELYOS_RBMQ_USERNAME} # set if CREATE_RBMQ_ACCOUNTS is True
             - RBMQ_ADMIN_PASSWORD=${HELYOS_RBMQ_PASSWORD} # set if CREATE_RBMQ_ACCOUNTS is True
-
-            # AGENT => HELYOS
-            - AGENTS_UL_EXCHANGE=${AGENTS_UL_EXCHANGE}
-            - CHECK_IN_QUEUE=${CHECK_IN_QUEUE}
-            - AGENT_UPDATE_QUEUE=${AGENT_UPDATE_QUEUE}
-            
-            # HELYOS => AGENT
-            - AGENTS_DL_EXCHANGE=${AGENTS_DL_EXCHANGE}
+            - AGENT_AUTO_REGISTER_TOKEN=0001-0002-0003-0000-0004
 
         networks:
             - control-tower-net
@@ -143,25 +173,6 @@ services:
         depends_on:
             - db
             - local_message_broker
-
-
-
-# # ============================================================================
-# # ============================================================================
-# #                          MESSAGE-BROKER - RABBITMQ 
-# # ============================================================================
-# # ============================================================================
-
-    local_message_broker:
-        image:  rabbitmq:3-management
-
-        ports: 
-            - 5672:5672          
-            - 15672:15672        
-
-        networks:
-            - control-tower-net
-
 
 
 

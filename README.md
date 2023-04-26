@@ -1,21 +1,22 @@
-# AutoTruck - yard automation demonstration. 
+# AutoTruck - Yard Automation Demonstration. 
 
-The AutoTruck is a demo application for automation of logistic centers.
+The AutoTruck was a project that aimed the automation of logistic centers.
 
-This project was successfuly implemented by using the helyOS framework. </br> 
-We have prepared this local deployment that allows you to run  the application in your computer with the help of [Docker](https://www.docker.com/).
+Its implementation was accomplished through the use of the [helyOS framework](https://helyos-manual.readthedocs.io/en/latest/) and the TruckTrix&reg; path planner.<br>
 
+Here, we have prepared this demo version to run the application in your own computer with the aid of [Docker](https://www.docker.com/) containers.
+For this local version, the TruckTrix&reg service was substituted by a simple clothoid path planner.
 
  ## Core features
-  * Use local path planner to plan paths.
+  * Click in the map for the final destination to drive.
   * Use online TruckTrix&reg; path planner service to plan free colision paths. (*)
-  * Automatic registration of vehicle (agent) via RabbitMQ message broker.
-  * Assignment of user-triggered processes to one or several services for path calculation (configurable using helyOS dashboard).
-  * Collection of path calculations via dashboard 
+  * Alternatively, use local path planner to plan clothoid paths.
+  * helyOS is employed to integrate AutoTruck web app, path planners, message broker and the vehicle simulator.
+  * Create different types of missions (must be registered in helyOS dashboard).
+
+(*) See details below in [Setting TruckTrix as path planner](#setting-trucktrix-as-path-planner).
 
 
-(*) TruckTrix&reg; is a powerful path planner. You need to request the TruckTrix API-key from Fraunhofer IVI. </br> 
-The API-key must be added in `settings/licenses/service_licenses.ini`.
 
 </br>
 </br>
@@ -40,7 +41,12 @@ docker-compose up -d
 
 </br>
 
- ## To restart
+ ## To restart vehicle simulator
+```
+ docker-compose restart  agent_simulator
+ ```
+
+ ## To restart application
 
 ```
 docker-compose down -v
@@ -55,7 +61,7 @@ The (-v) will delete the database.
 
 # Exploring the helyOS backend
 
-Use helyOS dasboard to configure the backend.
+The AutoTruck app uses helyOS as backend.  Access the helyOS dasboard to configure the backend.
 
 
 ## helyOS Dasboard
@@ -71,6 +77,22 @@ You can also insert the TruckTrix API-key in the `Microservices` view.
 
 <br>
 
+
+## Setting TruckTrix as path planner
+
+TruckTrix&reg; is a robust multi-joint path planner developed by Fraunhofer IVI. </br> 
+
+The choice of which path planner is used by the application can be set up in helyOS dashboard. 
+So you can choose the AutoTruck app to use the online TruckTrix path planer or the local clothoid path planner.
+
+To utilize TruckTrix,  it is necessary to request an API-key from Fraunhofer IVI ( trucktrix [at] ivi . fraunhofer . de ).
+
+The API-key must be added in `settings/licenses/service_licenses.ini` or saved in the *trucktrix* API-key field in http://localhost:8080/dashboard/#/all-services.
+
+In the microservices view of dashboard, disable the local_path_planner and enable the Trucktrix service.
+
+<br>
+
 ## GraphiQL
 Explore the helyOS database using the GraphQL language.
 
@@ -79,7 +101,8 @@ Explore the helyOS database using the GraphQL language.
 
 
 
-
+## Contact
+helyos [at] fraunhofer . ivi . de (without spaces)
 
 
 <!-- ## Production
