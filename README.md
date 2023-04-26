@@ -5,7 +5,7 @@ The AutoTruck was a project that aimed the automation of logistic centers.
 Its implementation was accomplished through the use of the [helyOS framework](https://helyos-manual.readthedocs.io/en/latest/) and the TruckTrix&reg; path planner.<br>
 
 Here, we have prepared this demo version to run the application in your own computer with the aid of [Docker](https://www.docker.com/) containers.
-For this local version, the TruckTrix&reg service was substituted by a simple clothoid path planner.
+For this local version, the TruckTrix&reg; service was substituted by a simple clothoid path planner.
 
  ## Core features
   * Click in the map for the final destination to drive.
@@ -18,7 +18,6 @@ For this local version, the TruckTrix&reg service was substituted by a simple cl
 
 
 
-</br>
 </br>
 
  ## To start
@@ -61,7 +60,7 @@ The (-v) will delete the database.
 
 # Exploring the helyOS backend
 
-The AutoTruck app uses helyOS as backend.  Access the helyOS dasboard to configure the backend.
+The AutoTruck app uses helyOS as backend.  You can access the helyOS dasboard to configure the backend.
 
 
 ## helyOS Dasboard
@@ -71,9 +70,6 @@ The AutoTruck app uses helyOS as backend.  Access the helyOS dasboard to configu
 *username*: admin
 
 *password*: admin
-
-
-You can also insert the TruckTrix API-key in the `Microservices` view.
 
 <br>
 
@@ -89,12 +85,12 @@ To utilize TruckTrix,  it is necessary to request an API-key from Fraunhofer IVI
 
 The API-key must be added in `settings/licenses/service_licenses.ini` or saved in the *trucktrix* API-key field in http://localhost:8080/dashboard/#/all-services.
 
-In the microservices view of dashboard, disable the local_path_planner and enable the Trucktrix service.
+In the helyOS dashboard `Microservices` view, disable the local_path_planner and enable the TruckTrix service.
 
 <br>
 
-## GraphiQL
-Explore the helyOS database using the GraphQL language.
+## Yard and Missions Data
+Using the GraphQL language, you can programmatically access the complete yard data stored in the helyOS database.
 
 [http://localhost:5000/graphiql](http://localhost:5000/graphiql)
  
