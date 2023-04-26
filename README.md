@@ -9,7 +9,7 @@ For this local version, the TruckTrix&reg; service was substituted by a simple c
 
  ## Core features
   * Click in the map for the final destination to drive.
-  * Use online TruckTrix&reg; path planner service to plan colision-free paths. (*)
+  * Use online TruckTrix&reg; path planner service to plan collision-free paths. (*)
   * Alternatively, use local path planner to plan clothoid paths.
   * helyOS is employed to integrate AutoTruck web app, path planners, message broker and the vehicle simulator.
   * Create different types of missions (must be registered in helyOS dashboard).
