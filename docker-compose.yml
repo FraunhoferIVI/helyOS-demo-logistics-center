@@ -8,7 +8,7 @@ services:
 # ============================================================================
 
     yard_automation_app:
-        image: autotruck/autotruck_webclient:2.0.0-rc6
+        image: autotruck/autotruck_webclient:2.0.0-rc8
 
         ports: 
             - 3080:3080            
@@ -55,7 +55,7 @@ services:
 
 
     agent_simulator:
-        image: helyosframework/helyos_agent_slim_simulator:0.4.0
+        image: helyosframework/helyos_agent_slim_simulator:0.5.0
 
         volumes:
             - ./geometry-trailer.json:/app/geometry.json
@@ -131,7 +131,7 @@ services:
 
 
     helyos_core:
-        image: helyosframework/helyos_core:2.0.0-rc12
+        image: helyosframework/helyos_core:2.0.0-rc19
 
         ports:
             - 5002:5002  # Websocket
@@ -140,7 +140,7 @@ services:
 
 
         volumes:
-            - ./settings/licenses:/licenses/
+            - ./settings/config:/config/
             - ./settings/db_initial_data/:/db_initial_data/
             - ./settings/rsa_keys/helyos_private.key:/.ssl_keys/helyos_private.key:ro
 
@@ -179,9 +179,8 @@ services:
 
 networks:
     control-tower-net:
-        name: control-tower-net
-        external: true
-
+       external: 
+           name: api-network  
 
 volumes:
     postgres_data:

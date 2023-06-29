@@ -1,0 +1,44 @@
+version: '2.0'
+
+services:
+
+    trucktrix:
+      is_dummy: false
+      domain: "Assignment planner"  # Assignment planner | Map Server | Storage server
+      type: "drive"
+      url: https://trucktrix.ivi.fraunhofer.de/trucktrix-path-api/
+      enable: false
+      apikey: "copy-here-the-API-key"
+      timeout: 300
+      
+      context:
+        map_data: true
+        all_agents_data: true
+        mission_agents_data: true
+        
+      config: >
+            {"trucktrix_planner_type": "all_directions",
+              "output_format" :"trucktrix-ivi"}
+
+
+
+    clothoid_path:
+      domain: "Assignment planner"  # Assignment planner | Map server | Storage server
+      type: "drive"
+      url:     "http://local_planner_service:9000/"
+      enable: true
+      apikey: "super_secret"
+      timeout: 180
+
+      context:
+        map_data: false
+        all_agents_data: false
+        mission_agents_data: true
+        
+      config: >
+            { "output_format" :"trucktrix-ivi"}
+
+
+
+
+
