@@ -179,8 +179,8 @@ services:
 
 networks:
     control-tower-net:
-       external: 
-           name: api-network  
+       external: false
+           
 
 volumes:
     postgres_data:
