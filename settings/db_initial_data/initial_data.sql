@@ -17,27 +17,6 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 
---
--- Data for Name: work_processes; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-INSERT INTO public.work_process_type 
-            (name ,          description,       num_max_agents, dispatch_order, extra_params)
-     VALUES   
-            ('driving',        'drive from a to b',    1,           '[["A"]]' ,  NULL ),
-            ('test_mission',  'drive from a to b',    1,           '[["A"]]' ,  NULL );
-			
-
-            
-
-INSERT INTO public.work_process_service_plan 
-            (work_process_type_id, step ,request_order, agent, service_type,  depends_on_steps, is_result_assignment)
-     VALUES   
-            (1,                    'A' ,     1,             1,    'drive',     	    '[]',          true),
-            (2,                    'A' ,     1,             1,    'dummy_service', '[]',          true);
-
-
-			
 
 --
 -- Data for Name: yards; Type: TABLE DATA; Schema: public; Owner: postgres

@@ -8,7 +8,7 @@ services:
 # ============================================================================
 
     yard_automation_app:
-        image: autotruck/autotruck_webclient:2.0.0-rc8
+        image: autotruck/autotruck_webclient:2.0.0-rc10
 
         ports: 
             - 3080:3080            
@@ -131,7 +131,7 @@ services:
 
 
     helyos_core:
-        image: helyosframework/helyos_core:2.0.0-rc19
+        image: helyosframework/helyos_core:2.0.0-rc22
 
         ports:
             - 5002:5002  # Websocket
