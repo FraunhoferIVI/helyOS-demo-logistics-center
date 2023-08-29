@@ -8,7 +8,7 @@ services:
 # ============================================================================
 
     yard_automation_app:
-        image: autotruck/autotruck_webclient:2.0.0-rc10
+        image: autotruck/autotruck_webclient:2.0.0-rc16
 
         ports: 
             - 3080:3080            
@@ -54,11 +54,50 @@ services:
 # # ============================================================================
 
 
-    agent_simulator:
-        image: helyosframework/helyos_agent_slim_simulator:0.5.0
+    agent_simulator_1:
+        image: helyosframework/helyos_agent_slim_simulator:0.5.3
 
         volumes:
-            - ./geometry-trailer.json:/app/geometry.json
+            - ./geometry_tractor.json:/app/geometry.json
+            
+        environment:
+
+            # AGENT ID
+            - UUID=Ab34069fc5-fdgs-434b-b87e-f19c5435113 
+            - ASSIGNMENT_FORMAT=autotruck-path  # fixed | trajectory | straight_to_destination | autotruck-path 
+            - NAME=MY_TRACTOR
+            - X0=-32000
+            - Y0=0
+            - ORIENTATION=0.329
+            - VELOCITY=1.8 
+            - VEHICLE_PARTS=2
+
+            # RABBITMQ 
+            - RABBITMQHOST=local_message_broker 
+            - RABBITMQPORT=5672
+            - REGISTRATION_TOKEN=0001-0002-0003-0000-0004
+
+        networks:
+            - control-tower-net   
+
+        depends_on:
+            - helyos_core     
+
+        command: ["python","-u", "main.py"]
+
+        deploy:
+            restart_policy:
+                condition: on-failure
+                delay: 15s
+                max_attempts: 5
+                window: 60s    
+
+
+    agent_simulator_2:
+        image: helyosframework/helyos_agent_slim_simulator:0.5.3
+
+        volumes:
+            - ./geometry_truck.json:/app/geometry.json
             
         environment:
 
@@ -67,7 +106,7 @@ services:
             - ASSIGNMENT_FORMAT=autotruck-path  # fixed | trajectory | straight_to_destination | autotruck-path 
             - NAME=MY_TRUCK
             - X0=-30000
-            - Y0=0
+            - Y0=10000
             - ORIENTATION=0.329
             - VELOCITY=1.8 
             - VEHICLE_PARTS=2
@@ -131,7 +170,7 @@ services:
 
 
     helyos_core:
-        image: helyosframework/helyos_core:2.0.0-rc22
+        image: helyosframework/helyos_core:2.0.0-rc28
 
         ports:
             - 5002:5002  # Websocket
