@@ -1,6 +1,8 @@
 [
     {
         "id": 1,
+        "tool_type": "tractor",
+        "reference_point": "first_axis",
         "axles": [
             {
                 "id": 0,
@@ -54,6 +56,8 @@
     },
     {
         "id": 2,
+        "reference_point": "connection_point",
+        "tool_type":"trailer",
         "axles": [
             {
                 "id": 0,
