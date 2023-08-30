@@ -68,6 +68,7 @@ def create_resource(uuid, name, pose, geometry, status, toolType, yardId, **othe
                             }    
     
     res = session.post(f"{hostname}/graphql", json=graphql_request)
+    print(res.json())
     if res.status_code != 200:
         print(res.status_code)
         
@@ -120,25 +121,25 @@ with open('geometry_trailer.json', 'r') as f:
 create_or_update_resource("swapbody_1",  "swapbody_1", {'x':-26833,'y':500, 'orientations':[2876]}, 
                         trailer_geometry, "free","trailer", yardId,
                         factsheet= json.dumps({'current_gate': "G21"}),
-                        acknowledge_reservation=False)
+                        acknowledgeReservation=False)
 
 
 create_or_update_resource("swapbody_2",  "swapbody_2", {'x':-28490,'y':-6266, 'orientations':[2876]}, 
                         trailer_geometry, "free", "trailer", yardId,
                         factsheet= json.dumps({'current_gate': "G22"}),
-                        acknowledge_reservation=False)
+                        acknowledgeReservation=False)
                         
 
 create_or_update_resource("trailer_1",  "trailer_1", {'x':-29884,'y':-9967, 'orientations':[2876]}, 
                         trailer_geometry, "free", "trailer", yardId,
                         factsheet= json.dumps({'current_gate': "G23"}),
-                        acknowledge_reservation=False)
+                        acknowledgeReservation=False)
 
 
 create_or_update_resource("trailer_2",  "trailer_2", {'x':-30323,'y':-13940, 'orientations':[2876]}, 
                          trailer_geometry, "free", "trailer", yardId,
                          factsheet= json.dumps({'current_gate': "G24"}),
-                        acknowledge_reservation=False)
+                        acknowledgeReservation=False)
 
                           
                           
