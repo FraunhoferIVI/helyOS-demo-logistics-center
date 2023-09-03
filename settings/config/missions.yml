@@ -1,7 +1,6 @@
 version: '2.0'
 
 missions:
-
     driving:
       maxagents: 1
       description: "drive from a to b"
@@ -17,4 +16,37 @@ missions:
             override_config: "{}"
 
 
- 
+    transport:
+      maxagents: 2
+      description: "move trailer around and return to the initial position"
+      settings: >
+            {}
+        
+      recipe:
+          steps:
+            - step: "get_trailer"
+              service_type: "transport"
+              request_order: 1
+              apply_result: false
+              override_config: "{}"
+
+              - step: "bring_trailer"
+                service_type: "transport"
+                request_order: 2
+                dependencies: '["get_trailer","get_trailer"]'
+                apply_result: false
+                override_config: "{}"
+
+            - step: "return_trailer"
+              service_type: "transport"
+              request_order: 3
+              dependencies: '["get_trailer","bring_trailer"]'
+              apply_result: false
+              override_config: "{}"
+
+            - step: "return_truck"
+              service_type: "transport"
+              request_order: 4
+              dependencies: '["get_trailer", "return_trailer"]'
+              apply_result: true
+              override_config: "{}"

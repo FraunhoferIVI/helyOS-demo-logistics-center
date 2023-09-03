@@ -45,11 +45,38 @@ services:
             - ./microservices/clothoid_path_planner/:/app
 
 
+# ============================================================================
+# ============================================================================
+#                  AUXILIAR ASSIGNMENT PLANNER - TO HANDLE TRAILER TRANSPORTATION
+# ============================================================================
+# ============================================================================
+
+    trailer_transport_service:
+        build: 
+            context: ./microservices/trailer_transport_planner
+            dockerfile: Dockerfile
+
+        container_name: trailer_transport_service
+
+        ports:
+        - "9100:9100"
+
+        restart: always
+
+        networks:
+        - control-tower-net
+
+        volumes:
+            - ./microservices/trailer_transport_planner/:/app
+
+
+
+
 
 
 # # ============================================================================
 # # ============================================================================
-    # #                       TRUCK SIMULATOR - TRUCK + TRAILER 
+    # #                       TRUCK SIMULATOR - TRUCK AND TRACTOR 
 # # ============================================================================
 # # ============================================================================
 
@@ -170,7 +197,7 @@ services:
 
 
     helyos_core:
-        image: helyosframework/helyos_core:2.0.0-rc28
+        image: helyosframework/helyos_core:2.0.0-rc29
 
         ports:
             - 5002:5002  # Websocket

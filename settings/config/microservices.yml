@@ -40,5 +40,19 @@ services:
 
 
 
+    trailer_transport:
+      domain: "Assignment planner"  # Assignment planner | Map server | Storage server
+      type: "transport"
+      url:     "http://trailer_transport_service:9100/"
+      enable: true
+      apikey: "super_secret"
+      timeout: 180
 
+      context:
+        map_data: false
+        all_agents_data: true
+        mission_agents_data: true
+        
+      config: >
+            { "output_format" :"trucktrix-ivi"}
 
