@@ -64,7 +64,7 @@ def getPath():
         path_planner_response = call_path_planner(path_planner_url, new_request_data , path_planner_apikey)
 
         assignment_drive_to_trailer = path_planner_response['results'][0]['assignment']
-        assignment_connect_to_trailer = f"connect_trailer {trailer_uuid}"
+        assignment_connect_to_trailer = {'operation': f"connect_trailer {trailer_uuid}"}
         results = []
         results.append({'tool_id': tool_id, 'assignment': assignment_drive_to_trailer})
         results.append({'tool_id': tool_id, 'assignment': assignment_connect_to_trailer})
@@ -90,7 +90,7 @@ def getPath():
         results = get_trailer_step['results']
         results.append({'tool_id': tool_id, 'assignment': assignment_drive_with_trailer})
 
-        response =   { "results": results }
+        response =   {"status": "completed", "results": results }
     
     if step == "return_trailer":
         dependencies = context['dependencies']
@@ -102,12 +102,14 @@ def getPath():
         new_request_data = {'request':{'tool_id': tool_id, 'initial_position': start_position, 'destination': destination}, 'context': context}
         path_planner_response = call_path_planner(path_planner_url, new_request_data, path_planner_apikey)
 
-        # Add new assignment to previous one
+        # Add new assignments to previous one
         assignment_drive_back_trailer = path_planner_response['results'][0]['assignment']
+        assignment_disconnect_to_trailer = {'operation': f"disconnect_trailer"}
         results = bring_trailer_step['results']
         results.append({'tool_id': tool_id, 'assignment': assignment_drive_back_trailer})
+        results.append({'tool_id': tool_id, 'assignment': assignment_disconnect_to_trailer})
 
-        response =   { "results": results }
+        response =   { "status": "completed", "results": results }
 
 
     if step == "return_truck":
@@ -122,10 +124,9 @@ def getPath():
 
         # Add new assignment to previous one
         assignment_drive_back_truck = path_planner_response['results'][0]['assignment']
-        assignment_disconnect_to_trailer = f"disconnect_trailer"
+
         results = return_trailer_step['results']
         results.append({'tool_id': tool_id, 'assignment': assignment_drive_back_truck})
-        results.append({'tool_id': tool_id, 'assignment': assignment_disconnect_to_trailer})
 
         response =   { "status": "completed", "results": results, 'dispatch_order':[[0],[1],[2],[3],[4],[5]] }
     

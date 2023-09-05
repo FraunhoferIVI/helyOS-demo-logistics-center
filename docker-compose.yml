@@ -82,7 +82,7 @@ services:
 
 
     agent_simulator_1:
-        image: helyosframework/helyos_agent_slim_simulator:0.5.3
+        image: helyosframework/helyos_agent_slim_simulator:0.5.5-rc1
 
         volumes:
             - ./geometry_tractor.json:/app/geometry.json
@@ -121,7 +121,7 @@ services:
 
 
     agent_simulator_2:
-        image: helyosframework/helyos_agent_slim_simulator:0.5.3
+        image: helyosframework/helyos_agent_slim_simulator:0.5.5-rc1
 
         volumes:
             - ./geometry_truck.json:/app/geometry.json
@@ -167,6 +167,7 @@ services:
 
     local_message_broker:
         image:  rabbitmq:3-management
+        hostname: local_message_broker
 
         ports: 
             - 5672:5672          
@@ -194,10 +195,13 @@ services:
             POSTGRES_HOST_AUTH_METHOD: "trust"
         networks:
             - control-tower-net
+        container_name: db
 
 
     helyos_core:
-        image: helyosframework/helyos_core:2.0.0-rc29
+        # image: helyosframework/helyos_core:2.0.0-rc28
+        build:  
+            context: 'C:\work\newrep\helyos_core\helyos_core'
 
         ports:
             - 5002:5002  # Websocket
