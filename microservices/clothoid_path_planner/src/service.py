@@ -64,7 +64,8 @@ def calculate_path(initial_position, destination):
     trajectory = [];  npts = 80
     sample_points = [clothoid0.length * m/(npts-1) for m in range(0,npts)]
     for i in sample_points:
-        trajectory.append ({ 'x':clothoid0.X(i), 'y':clothoid0.Y(i), 'orientations':[clothoid0.Theta(i),0]})
+        theta = clothoid0.Theta(i)%(2*math.pi)
+        trajectory.append ({ 'x':clothoid0.X(i), 'y':clothoid0.Y(i), 'orientations':[theta,0]})
 
     return trajectory
 
