@@ -23,14 +23,16 @@ def getPath():
 
     # Get destination from request data
     tool_id = request_data['tool_id']
-    destination = request_body.get('destination', None) # destination pose
+    destination = request_data.get('destination', None) # destination pose
     if destination is None:
         destination = { 'x':request_data['x'], 'y':request_data['y'], 'orientations':request_data['orientations'], }
 
     # Get initial position from helyOS context
-    helyos_tools = context['tools'] # contains all data about the agent (tool)
-    tool = next((tool for tool in helyos_tools if tool['id'] == str(tool_id)), None) # find target agent in context
-    initial_position = tool['pose']
+    initial_position = request_data.get('initial_position', None) # start pose
+    if initial_position is None:
+        helyos_tools = context['tools'] # contains all data about the agent (tool)
+        tool = next((tool for tool in helyos_tools if tool['id'] == str(tool_id)), None) # find target agent in context
+        initial_position = tool['pose']
 
     # Calculate trajectory
     destination['orientations'][0] = (destination['orientations'][0]/1000)%(2*math.pi) 

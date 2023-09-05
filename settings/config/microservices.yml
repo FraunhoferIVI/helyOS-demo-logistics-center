@@ -54,5 +54,8 @@ services:
         mission_agents_data: true
         
       config: >
-            { "output_format" :"trucktrix-ivi"}
+            { "output_format" :"trucktrix-ivi", 
+              "path_planner_url": "http://local_planner_service:9000/",
+              "path_planner_apikey":"super_secret"}
+
 

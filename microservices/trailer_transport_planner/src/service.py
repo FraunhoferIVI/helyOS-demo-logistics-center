@@ -6,9 +6,13 @@ app = Flask(__name__)
 
 
 def call_path_planner(url, data, api_key):
-  headers = { "Authorization": f"Bearer {api_key}"}
-  response = requests.post(url, data=data, headers=headers)
-  return response
+  headers={
+    'Content-type':'application/json', 
+    'Accept':'application/json',
+    "Authorization": f"Bearer {api_key}"
+}
+  response = requests.post(f"{url}plan_job/", json=data, headers=headers)
+  return response.json()
 
 
 @app.route("/health")
@@ -21,7 +25,7 @@ def health():
 def findStep(list_of_dicts, value): 
     for d in list_of_dicts:
         if 'step' in d and d['step'] == value:
-            return d
+            return d['response']
     return None
 
 
@@ -34,7 +38,7 @@ def getPath():
     request_body = request.get_json() 
     request_data = request_body['request']
     context = request_body['context']
-    service_config = request_body['_config']
+    service_config = request_body['config']
 
     step = context['orchestration']['current_step']
     path_planner_url = service_config['path_planner_url']
@@ -56,10 +60,10 @@ def getPath():
         trailer_position = trailer['pose']
 
         destination = trailer_position
-        new_request_data = {'toold_id': tool_id, 'destination': destination, 'context': context}
+        new_request_data = {'request':{'tool_id': tool_id, 'destination': destination}, 'context': context}
         path_planner_response = call_path_planner(path_planner_url, new_request_data , path_planner_apikey)
 
-        assignment_drive_to_trailer = path_planner_response['response'][0]['assignment']
+        assignment_drive_to_trailer = path_planner_response['results'][0]['assignment']
         assignment_connect_to_trailer = f"connect_trailer {trailer_uuid}"
         results = []
         results.append({'tool_id': tool_id, 'assignment': assignment_drive_to_trailer})
@@ -68,7 +72,7 @@ def getPath():
         response =   {
                 "results":results,
                 "initial_truck_position": truck_position,
-                "initial_trailer_position": trailer_position,
+                "initial_trailer_position": trailer_position
             }
     
 
@@ -76,11 +80,13 @@ def getPath():
         dependencies = context['dependencies']
         get_trailer_step = findStep(dependencies, 'get_trailer')
 
+        start_position = get_trailer_step['initial_trailer_position']
         destination = get_trailer_step['initial_truck_position']
-        new_request_data = {'toold_id': tool_id, 'destination': destination, 'context': context}
+        new_request_data = {'request':{'tool_id': tool_id, 'initial_position': start_position, 'destination': destination}, 'context': context}
         path_planner_response = call_path_planner(path_planner_url, new_request_data, path_planner_apikey)
 
-        assignment_drive_with_trailer = path_planner_response['response'][0]['assignment']
+        # Add new assignment to previous one
+        assignment_drive_with_trailer = path_planner_response['results'][0]['assignment']
         results = get_trailer_step['results']
         results.append({'tool_id': tool_id, 'assignment': assignment_drive_with_trailer})
 
@@ -91,11 +97,13 @@ def getPath():
         get_trailer_step = findStep(dependencies, 'get_trailer')
         bring_trailer_step = findStep(dependencies, 'bring_trailer')
 
+        start_position = get_trailer_step['initial_truck_position']
         destination = get_trailer_step['initial_trailer_position']
-        new_request_data = {'toold_id': tool_id, 'destination': destination, 'context': context}
+        new_request_data = {'request':{'tool_id': tool_id, 'initial_position': start_position, 'destination': destination}, 'context': context}
         path_planner_response = call_path_planner(path_planner_url, new_request_data, path_planner_apikey)
 
-        assignment_drive_back_trailer = path_planner_response['response'][0]['assignment']
+        # Add new assignment to previous one
+        assignment_drive_back_trailer = path_planner_response['results'][0]['assignment']
         results = bring_trailer_step['results']
         results.append({'tool_id': tool_id, 'assignment': assignment_drive_back_trailer})
 
@@ -105,19 +113,21 @@ def getPath():
     if step == "return_truck":
         dependencies = context['dependencies']
         get_trailer_step = findStep(dependencies, 'get_trailer')
-        bring_trailer_step = findStep(dependencies, 'bring_trailer')
+        return_trailer_step = findStep(dependencies, 'return_trailer')
 
+        start_position = get_trailer_step['initial_trailer_position']
         destination = get_trailer_step['initial_truck_position']
-        new_request_data = {'toold_id': tool_id, 'destination': destination, 'context': context}
-        path_planner_response = call_path_planner(new_request_data, path_planner_url, path_planner_apikey)
+        new_request_data = {'request':{'tool_id': tool_id, 'initial_position': start_position, 'destination': destination}, 'context': context}
+        path_planner_response = call_path_planner(path_planner_url, new_request_data , path_planner_apikey)
 
-        assignment_drive_back_truck = path_planner_response['response'][0]['assignment']
+        # Add new assignment to previous one
+        assignment_drive_back_truck = path_planner_response['results'][0]['assignment']
         assignment_disconnect_to_trailer = f"disconnect_trailer"
-        results = bring_trailer_step['results']
+        results = return_trailer_step['results']
         results.append({'tool_id': tool_id, 'assignment': assignment_drive_back_truck})
         results.append({'tool_id': tool_id, 'assignment': assignment_disconnect_to_trailer})
 
-        response =   { "results": results, 'dispatch_order':[[0],[1],[2],[3],[4],[5]] }
+        response =   { "status": "completed", "results": results, 'dispatch_order':[[0],[1],[2],[3],[4],[5]] }
     
     return jsonify(response)
 
