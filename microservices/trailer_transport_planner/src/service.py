@@ -41,8 +41,6 @@ def getPath():
     service_config = request_body['config']
 
     step = context['orchestration']['current_step']
-    path_planner_url = service_config['path_planner_url']
-    path_planner_apikey = service_config['path_planner_apikey']
 
     tool_id = request_data['tool_id']
 
@@ -59,6 +57,7 @@ def getPath():
         trailer = next((tool for tool in helyos_tools if tool['uuid'] == str(trailer_uuid)), None) # find agent in context
         trailer_position = trailer['pose']
 
+        # Set path planner request
         destination = trailer_position
         new_request_data = {'tool_id': tool_id, 'destination': destination}
 
@@ -81,6 +80,7 @@ def getPath():
         assignment_connect_to_trailer = {'tool_id': tool_id, 'assignment':  {'operation': f"connect_trailer {prepare_mission_step['trailer_uuid']}"}}
         results = [assignment_connect_to_trailer]
 
+        # Set path planner request
         start_position = prepare_mission_step['initial_trailer_position']
         destination = prepare_mission_step['initial_truck_position']
         new_request_data = {'tool_id': tool_id, 'initial_position': start_position, 'destination': destination}
@@ -97,6 +97,8 @@ def getPath():
 
         # Add new assignments to previous  mission
         results =[]
+
+        # Set path planner request
         start_position = prepare_mission_step['initial_truck_position']
         destination = prepare_mission_step['initial_trailer_position']
         new_request_data = {'tool_id': tool_id, 'initial_position': start_position, 'destination': destination}
@@ -115,6 +117,7 @@ def getPath():
         assignment_disconnect_to_trailer = {'tool_id': tool_id, 'assignment':  {'operation': f"disconnect_trailer"}}
         results = [assignment_disconnect_to_trailer]
 
+        # Set path planner request
         start_position = prepare_mission_step['initial_trailer_position']
         destination = prepare_mission_step['initial_truck_position']
         new_request_data = {'tool_id': tool_id, 'initial_position': start_position, 'destination': destination}
