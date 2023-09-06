@@ -199,7 +199,9 @@ services:
 
 
     helyos_core:
-        image: helyosframework/helyos_core:2.0.0-rc29
+        image: helyosframework/helyos_core:2.0.0-rc30
+        # build:  
+        #     context: 'C:\work\newrep\helyos_core\helyos_core'
 
         ports:
             - 5002:5002  # Websocket

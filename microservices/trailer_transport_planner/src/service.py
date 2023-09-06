@@ -47,88 +47,103 @@ def getPath():
     tool_id = request_data['tool_id']
 
 
-    if step == "get_trailer":
+    if step == "prepare_mission":
         # Get truck data
         helyos_tools = context['tools'] # contains all data about the agent (tool)
         truck = next((tool for tool in helyos_tools if tool['id'] == str(tool_id)), None) # find agent in context
         truck_position = truck['pose']    
 
-        # Get trailer
+        # Get trailer data
         trailer_uuid = request_data['trailer_uuid']
         helyos_tools = context['tools'] # contains all data about the agent (tool)
         trailer = next((tool for tool in helyos_tools if tool['uuid'] == str(trailer_uuid)), None) # find agent in context
         trailer_position = trailer['pose']
 
         destination = trailer_position
-        new_request_data = {'request':{'tool_id': tool_id, 'destination': destination}, 'context': context}
-        path_planner_response = call_path_planner(path_planner_url, new_request_data , path_planner_apikey)
+        new_request_data = {'tool_id': tool_id, 'destination': destination}
 
-        assignment_drive_to_trailer = path_planner_response['results'][0]['assignment']
-        assignment_connect_to_trailer = {'operation': f"connect_trailer {trailer_uuid}"}
-        results = []
-        results.append({'tool_id': tool_id, 'assignment': assignment_drive_to_trailer})
-        results.append({'tool_id': tool_id, 'assignment': assignment_connect_to_trailer})
-
-        response =   {
-                "results":results,
-                "initial_truck_position": truck_position,
-                "initial_trailer_position": trailer_position
+        response =  { 'status': "ready",
+                      'results': [],
+                      'trailer_uuid': trailer_uuid,
+                      'initial_truck_position': truck_position,
+                      'initial_trailer_position': trailer_position,
+                      'orchestration': {'nex_step_request':{"drive_to_trailer": new_request_data }}
             }
     
 
-    if step == "bring_trailer":
+
+    if step == "connect_prep_move":
+        # Get data from preivous services 
         dependencies = context['dependencies']
-        get_trailer_step = findStep(dependencies, 'get_trailer')
+        prepare_mission_step = findStep(dependencies, 'prepare_mission')
 
-        start_position = get_trailer_step['initial_trailer_position']
-        destination = get_trailer_step['initial_truck_position']
-        new_request_data = {'request':{'tool_id': tool_id, 'initial_position': start_position, 'destination': destination}, 'context': context}
-        path_planner_response = call_path_planner(path_planner_url, new_request_data, path_planner_apikey)
+        # Add new assignments to previous  mission
+        assignment_connect_to_trailer = {'tool_id': tool_id, 'assignment':  {'operation': f"connect_trailer {prepare_mission_step['trailer_uuid']}"}}
+        results = [assignment_connect_to_trailer]
 
-        # Add new assignment to previous one
-        assignment_drive_with_trailer = path_planner_response['results'][0]['assignment']
-        results = get_trailer_step['results']
-        results.append({'tool_id': tool_id, 'assignment': assignment_drive_with_trailer})
+        start_position = prepare_mission_step['initial_trailer_position']
+        destination = prepare_mission_step['initial_truck_position']
+        new_request_data = {'tool_id': tool_id, 'initial_position': start_position, 'destination': destination}
 
-        response =   {"status": "completed", "results": results }
+        response =   {'status' : "ready", 
+                      'results' : results,
+                      'orchestration': {'nex_step_request':{"drive_trailer_to_destiny": new_request_data }} }
     
+
     if step == "return_trailer":
+        # Get data from preivous services 
         dependencies = context['dependencies']
-        get_trailer_step = findStep(dependencies, 'get_trailer')
-        bring_trailer_step = findStep(dependencies, 'bring_trailer')
+        prepare_mission_step = findStep(dependencies, 'prepare_mission')
 
-        start_position = get_trailer_step['initial_truck_position']
-        destination = get_trailer_step['initial_trailer_position']
-        new_request_data = {'request':{'tool_id': tool_id, 'initial_position': start_position, 'destination': destination}, 'context': context}
-        path_planner_response = call_path_planner(path_planner_url, new_request_data, path_planner_apikey)
+        # Add new assignments to previous  mission
+        results =[]
+        start_position = prepare_mission_step['initial_truck_position']
+        destination = prepare_mission_step['initial_trailer_position']
+        new_request_data = {'tool_id': tool_id, 'initial_position': start_position, 'destination': destination}
 
-        # Add new assignments to previous one
-        assignment_drive_back_trailer = path_planner_response['results'][0]['assignment']
-        assignment_disconnect_to_trailer = {'operation': f"disconnect_trailer"}
-        results = bring_trailer_step['results']
-        results.append({'tool_id': tool_id, 'assignment': assignment_drive_back_trailer})
-        results.append({'tool_id': tool_id, 'assignment': assignment_disconnect_to_trailer})
+        response =   {'status' : "ready", 
+                      'results' : results,
+                      'orchestration': {'nex_step_request':{"drive_trailer_to_origin": new_request_data }} }
+        
 
-        response =   { "status": "completed", "results": results }
-
-
-    if step == "return_truck":
+    if step == "disconnect_return_truck":
+        # Get data from preivous services 
         dependencies = context['dependencies']
-        get_trailer_step = findStep(dependencies, 'get_trailer')
-        return_trailer_step = findStep(dependencies, 'return_trailer')
+        prepare_mission_step = findStep(dependencies, 'prepare_mission')
 
-        start_position = get_trailer_step['initial_trailer_position']
-        destination = get_trailer_step['initial_truck_position']
-        new_request_data = {'request':{'tool_id': tool_id, 'initial_position': start_position, 'destination': destination}, 'context': context}
-        path_planner_response = call_path_planner(path_planner_url, new_request_data , path_planner_apikey)
+        # Add new assignments to mission
+        assignment_disconnect_to_trailer = {'tool_id': tool_id, 'assignment':  {'operation': f"disconnect_trailer"}}
+        results = [assignment_disconnect_to_trailer]
 
-        # Add new assignment to previous one
-        assignment_drive_back_truck = path_planner_response['results'][0]['assignment']
+        start_position = prepare_mission_step['initial_trailer_position']
+        destination = prepare_mission_step['initial_truck_position']
+        new_request_data = {'tool_id': tool_id, 'initial_position': start_position, 'destination': destination}
 
-        results = return_trailer_step['results']
-        results.append({'tool_id': tool_id, 'assignment': assignment_drive_back_truck})
+        response =   {'status' : "ready", 
+                      'results' : results,
+                      'orchestration': {'nex_step_request':{"drive_to_origin": new_request_data }} }
 
-        response =   { "status": "completed", "results": results, 'dispatch_order':[[0],[1],[2],[3],[4],[5]] }
+
+
+    if step == "combine_assignments":
+        # Get data from preivous services 
+        dependencies = context['dependencies']
+
+        drive_to_trailer_step = findStep(dependencies, 'drive_to_trailer')
+        connect_prep_move_step = findStep(dependencies, 'connect_prep_move')
+        
+        drive_trailer_to_destiny_step = findStep(dependencies, 'drive_trailer_to_destiny')
+
+        drive_trailer_to_origin_step = findStep(dependencies, 'drive_trailer_to_origin')
+        disconnect_return_truck_step = findStep(dependencies, 'disconnect_return_truck')
+
+        drive_to_origin_step = findStep(dependencies, 'drive_to_origin')
+
+        # Add new assignments to mission
+        results =  drive_to_trailer_step['results'] + connect_prep_move_step['results'] + drive_trailer_to_destiny_step['results'] + \
+                  drive_trailer_to_origin_step['results'] + disconnect_return_truck_step['results'] + drive_to_origin_step['results']
+
+        response =   { "status": "ready", "results": results, 'dispatch_order':[[0],[1],[2],[3],[4],[5]] }
     
     return jsonify(response)
 
