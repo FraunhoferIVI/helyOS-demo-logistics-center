@@ -2,13 +2,14 @@
     {
         "id": 1,
         "tool_type": "tractor",
-        "reference_point": "first_axis",
+        "reference_frame": "first_axle_center",
         "axles": [
             {
                 "id": 0,
                 "position": {
                     "x": 1360,
-                    "y": 0
+                    "y": 0,
+                    "frame_name": "first_axle_center"
                 },
                 "steering": {
                     "axle_type": "forced",
