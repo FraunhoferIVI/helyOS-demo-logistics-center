@@ -2,7 +2,7 @@
     {
         "id": 1024,
         "tool_type": "truck",
-        "reference_point": "first_axis",
+        "reference_point": "first_axle_center",
         "axles": [
             {
                 "id": 0,

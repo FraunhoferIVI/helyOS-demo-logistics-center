@@ -28,6 +28,7 @@ def findStep(list_of_dicts, value):
             return d['response']
     return None
 
+TRAILER_CONNECTION_DISTANCE = 4000
 
 @app.post("/plan_job/")
 def getPath():
@@ -59,7 +60,9 @@ def getPath():
 
         # Set path planner request
         destination = trailer_position
-        new_request_data = {'tool_id': tool_id, 'destination': destination}
+        destination['x'] = destination['x'] + TRAILER_CONNECTION_DISTANCE*math.cos(destination['orientations'][0]/1000)
+        destination['y'] = destination['y'] + TRAILER_CONNECTION_DISTANCE*math.sin(destination['orientations'][0]/1000)
+        new_request_data = {'tool_id': tool_id, **destination}
 
         response =  { 'status': "ready",
                       'results': [],
@@ -83,7 +86,7 @@ def getPath():
         # Set path planner request
         start_position = prepare_mission_step['initial_trailer_position']
         destination = prepare_mission_step['initial_truck_position']
-        new_request_data = {'tool_id': tool_id, 'initial_position': start_position, 'destination': destination}
+        new_request_data = {'tool_id': tool_id, 'initial_position': start_position, **destination}
 
         response =   {'status' : "ready", 
                       'results' : results,
@@ -101,7 +104,9 @@ def getPath():
         # Set path planner request
         start_position = prepare_mission_step['initial_truck_position']
         destination = prepare_mission_step['initial_trailer_position']
-        new_request_data = {'tool_id': tool_id, 'initial_position': start_position, 'destination': destination}
+        destination['x'] = destination['x'] + TRAILER_CONNECTION_DISTANCE*math.cos(destination['orientations'][0]/1000)
+        destination['y'] = destination['y'] + TRAILER_CONNECTION_DISTANCE*math.sin(destination['orientations'][0]/1000)
+        new_request_data = {'tool_id': tool_id, 'initial_position': start_position, **destination}
 
         response =   {'status' : "ready", 
                       'results' : results,
@@ -120,7 +125,7 @@ def getPath():
         # Set path planner request
         start_position = prepare_mission_step['initial_trailer_position']
         destination = prepare_mission_step['initial_truck_position']
-        new_request_data = {'tool_id': tool_id, 'initial_position': start_position, 'destination': destination}
+        new_request_data = {'tool_id': tool_id, 'initial_position': start_position, **destination}
 
         response =   {'status' : "ready", 
                       'results' : results,
