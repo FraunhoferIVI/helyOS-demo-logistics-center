@@ -8,7 +8,7 @@ services:
 # ============================================================================
 
     yard_automation_app:
-        image: autotruck/autotruck_webclient:2.0.0-rc16
+        image: autotruck/autotruck_webclient:2.0.0-beta2
 
         ports: 
             - 3080:3080            
@@ -82,7 +82,7 @@ services:
 
 
     agent_simulator_1:
-        image: helyosframework/helyos_agent_slim_simulator:0.6.0
+        image: helyosframework/helyos_agent_slim_simulator:0.6.1
 
         volumes:
             - ./geometry_tractor.json:/app/geometry.json
@@ -93,12 +93,13 @@ services:
             - UUID=Ab34069fc5-fdgs-434b-b87e-f19c5435113 
             - ASSIGNMENT_FORMAT=autotruck-path  # fixed | trajectory | straight_to_destination | autotruck-path 
             - NAME=MY_TRACTOR
-            - X0=-32000
-            - Y0=0
+            - X0=-28000
+            - Y0=29000
             - ORIENTATION=0.329
             - VELOCITY=1.8 
             - VEHICLE_PARTS=2
             - YARD_UID=1
+            - UPDATE_RATE=10
 
             # RABBITMQ 
             - RABBITMQHOST=local_message_broker 
@@ -111,7 +112,7 @@ services:
         depends_on:
             - helyos_core     
 
-        command: ["python","-u", "main.py"]
+        command: ["python", "main.py"]
 
         deploy:
             restart_policy:
@@ -122,7 +123,7 @@ services:
 
 
     agent_simulator_2:
-        image: helyosframework/helyos_agent_slim_simulator:0.6.0
+        image: helyosframework/helyos_agent_slim_simulator:0.6.1
 
         volumes:
             - ./geometry_truck.json:/app/geometry.json
@@ -130,7 +131,7 @@ services:
         environment:
 
             # AGENT ID
-            - UUID=Bb34069fc5-fdgs-434b-b87e-f19c5435113 
+            - UUID=RANDOM_UUID 
             - ASSIGNMENT_FORMAT=autotruck-path  # fixed | trajectory | straight_to_destination | autotruck-path 
             - NAME=MY_TRUCK
             - X0=-30000
@@ -139,6 +140,7 @@ services:
             - VELOCITY=1.8 
             - VEHICLE_PARTS=2
             - YARD_UID=1
+            - UPDATE_RATE=10
 
             # RABBITMQ 
             - RABBITMQHOST=local_message_broker 
@@ -154,6 +156,7 @@ services:
         command: ["python","-u", "main.py"]
 
         deploy:
+            replicas: 10
             restart_policy:
                 condition: on-failure
                 delay: 15s
@@ -179,16 +182,33 @@ services:
             - control-tower-net
 
 
+# # =================================================================================
+# # =================================================================================
+# #     MOCKING EXTERNAL RESOURCE MANAGER TO PROVIDE TRAILER AND CONTAINERS POSITION
+# # =================================================================================
+# # =================================================================================
 
+    external_resource_manager:
+        image:  python:3.7-slim
+        volumes:
+            - ./register_trailers_to_yard.py:/app/register_trailers_to_yard.py
+            - ./geometry_trailer.json:/app/geometry_trailer.json
 
+        working_dir: /app
+        command: ["python","-u", "/app/register_trailers_to_yard.py"]
 
+        depends_on:
+            - helyos_core
+
+        networks:
+            - control-tower-net
 # # ============================================================================
 # # ============================================================================
 # #                           HELYOS - SYSTEM INTEGRATION
 # # ============================================================================
 # # ============================================================================
     db:
-        image: postgres:12
+        image: postgres:13
         ports:
             - "5432:5432"
         volumes:
@@ -201,7 +221,7 @@ services:
 
 
     helyos_core:
-        image: helyosframework/helyos_core:2.0.0-beta1
+        image: helyosframework/helyos_core:2.0.0-beta2
 
         ports:
             - 5002:5002  # Websocket

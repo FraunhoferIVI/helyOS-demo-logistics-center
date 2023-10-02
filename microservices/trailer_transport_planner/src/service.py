@@ -28,7 +28,7 @@ def findStep(list_of_dicts, value):
             return d['response']
     return None
 
-TRAILER_CONNECTION_DISTANCE = 3600
+TRAILER_CONNECTION_DISTANCE = 3550
 
 @app.post("/plan_job/")
 def getPath():
