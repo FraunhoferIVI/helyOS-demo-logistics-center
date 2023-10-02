@@ -131,7 +131,7 @@ services:
         environment:
 
             # AGENT ID
-            - UUID=RANDOM_UUID 
+            - UUID=Bb34069fc5-fdgs-434b-b87e-f19c5435113 
             - ASSIGNMENT_FORMAT=autotruck-path  # fixed | trajectory | straight_to_destination | autotruck-path 
             - NAME=MY_TRUCK
             - X0=-30000
@@ -156,7 +156,6 @@ services:
         command: ["python","-u", "main.py"]
 
         deploy:
-            replicas: 10
             restart_policy:
                 condition: on-failure
                 delay: 15s
