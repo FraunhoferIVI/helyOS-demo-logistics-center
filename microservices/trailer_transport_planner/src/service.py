@@ -28,7 +28,7 @@ def findStep(list_of_dicts, value):
             return d['response']
     return None
 
-TRAILER_CONNECTION_DISTANCE = 4000
+TRAILER_CONNECTION_DISTANCE = 3600
 
 @app.post("/plan_job/")
 def getPath():
@@ -50,7 +50,7 @@ def getPath():
         # Get truck data
         helyos_tools = context['tools'] # contains all data about the agent (tool)
         truck = next((tool for tool in helyos_tools if tool['id'] == str(tool_id)), None) # find agent in context
-        truck_position = truck['pose']    
+        truck_position = {**truck['pose']} 
 
         # Get trailer data
         trailer_uuid = request_data['trailer_uuid']
@@ -59,7 +59,7 @@ def getPath():
         trailer_position = trailer['pose']
 
         # Set path planner request
-        destination = trailer_position
+        destination = {**trailer_position}
         destination['x'] = destination['x'] + TRAILER_CONNECTION_DISTANCE*math.cos(destination['orientations'][0]/1000)
         destination['y'] = destination['y'] + TRAILER_CONNECTION_DISTANCE*math.sin(destination['orientations'][0]/1000)
         new_request_data = {'tool_id': tool_id, **destination}
