@@ -82,7 +82,7 @@ services:
 
 
     agent_simulator_1:
-        image: helyosframework/helyos_agent_slim_simulator:0.6.1
+        image: helyosframework/helyos_agent_slim_simulator:0.7.0
 
         volumes:
             - ./geometry_tractor.json:/app/geometry.json
@@ -123,7 +123,7 @@ services:
 
 
     agent_simulator_2:
-        image: helyosframework/helyos_agent_slim_simulator:0.6.1
+        image: helyosframework/helyos_agent_slim_simulator:0.7.0
 
         volumes:
             - ./geometry_truck.json:/app/geometry.json
