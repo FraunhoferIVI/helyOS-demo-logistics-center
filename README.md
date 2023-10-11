@@ -90,7 +90,7 @@ In the helyOS dashboard `Microservices` view, disable the `local_path_planner` a
 <br>
 
 ## Yard and Missions Data
-Using the GraphQL language, you can programmatically access the complete yard data stored in the helyOS database.
+Using the GraphQL language, you can programmatically access the yard data stored in the helyOS database.
 
 [http://localhost:5000/graphiql](http://localhost:5000/graphiql)
  

@@ -28,19 +28,22 @@ missions:
               service_type: "transport"
               request_order: 1
               apply_result: false
+              wait_assignments: false
               override_config: "{}"
 
             - step: "drive_to_trailer"
               service_type: "drive"
               request_order: 2
               dependencies: '["prepare_mission"]'
-              apply_result: true
+              apply_result: false
+              wait_assignments: false
               override_config: "{}"
 
             - step: "connect_prep_move"
               service_type: "transport"
               request_order: 3
-              apply_result: true
+              apply_result: false
+              wait_assignments: false
               dependencies: '["prepare_mission", "drive_to_trailer"]'
               override_config: "{}"
 
@@ -48,14 +51,15 @@ missions:
               service_type: "drive"
               request_order: 4
               dependencies: '["prepare_mission", "connect_prep_move"]'
-              apply_result: true
+              apply_result: false
+              wait_assignments: false
               override_config: "{}"
 
             - step: "return_trailer"
               service_type: "transport"
               request_order: 5
-              apply_result: true
-              wait_assignments: true
+              apply_result: false
+              wait_assignments: false
               dependencies: '["prepare_mission", "drive_trailer_to_destiny"]'
               override_config: "{}"
 
@@ -63,14 +67,15 @@ missions:
               service_type: "drive"
               request_order: 6
               dependencies: '["prepare_mission", "return_trailer"]'
-              apply_result: true
-              wait_assignments: true
+              apply_result: false
+              wait_assignments: false
               override_config: "{}"
 
             - step: "disconnect_return_truck"
               service_type: "transport"
               request_order: 7
-              apply_result: true
+              apply_result: false
+              wait_assignments: false
               dependencies: '["prepare_mission", "drive_trailer_to_origin"]'
               override_config: "{}"
 
@@ -78,10 +83,17 @@ missions:
               service_type: "drive"
               request_order: 8
               dependencies: '["prepare_mission", "disconnect_return_truck"]'
-              apply_result: true
+              apply_result: false
+              wait_assignments: false
               override_config: "{}"
 
-
+            - step: "combine_assignments"
+              service_type: "transport"
+              request_order: 9 
+              dependencies: '["drive_to_trailer", "connect_prep_move", "drive_trailer_to_destiny", "drive_trailer_to_origin","disconnect_return_truck", "drive_to_origin"]'
+              apply_result: true 
+              wait_assignments: false
+              override_config: "{}"
 
     autotruck_custom_buttons:
       maxagents: 1

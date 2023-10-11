@@ -8,7 +8,7 @@ import time
 # implement pip as a subprocess:
 subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'requests'])
 # # Wait helyOS to start
-time.sleep(20)
+time.sleep(15)
 
 
 # ## Connecting with helyOS
