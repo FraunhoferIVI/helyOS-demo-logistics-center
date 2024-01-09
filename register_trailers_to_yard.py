@@ -39,10 +39,10 @@ session.headers.update({ "Authorization": f"Bearer {authToken}"})
 ## CRUDE functions
 
 def list_tools(uuid):
-    graphql_request = {"operationName": "allTools",
+    graphql_request = {"operationName": "allAgents",
                        "query":""" 
-                                query allTools($condition: ToolCondition!) {
-                                          allTools (condition: $condition){
+                                query allAgents($condition: AgentCondition!) {
+                                          allAgents (condition: $condition){
                                             nodes {id,  uuid, geometry}
                                           }
                                         }
@@ -52,26 +52,26 @@ def list_tools(uuid):
                         }
 
     res = session.post(f"{hostname}/graphql", json=graphql_request)
-    return res.json()['data']['allTools']['nodes']
+    return res.json()['data']['allAgents']['nodes']
     
 
-def create_resource(uuid, name, pose, geometry, status, toolType, yardId, **other):
+def create_resource(uuid, name, pose, geometry, status, agentType, yardId, **other):
 
     tool_data = {'uuid':uuid, 'name': name, 'yardId': yardId, 'geometry': json.dumps(geometry),'status': status,
-                 'toolType': toolType}
+                 'agentType': agentType}
     tool_data['x']=pose['x']
     tool_data['y']=pose['y']
     tool_data['orientations']=pose['orientations']
     
     tool_data = {**tool_data, **other}
     
-    graphql_request = {"operationName": "createTool",
+    graphql_request = {"operationName": "createAgent",
                            "query":""" 
-                                    mutation createTool($postMessage: CreateToolInput!){
-                                        createTool(input:$postMessage) { tool{id} }
+                                    mutation createAgent($postMessage: CreateAgentInput!){
+                                        createAgent(input:$postMessage) { agent{id} }
                                     }""",
 
-                            "variables": {"postMessage": {"tool": tool_data} }
+                            "variables": {"postMessage": {"agent": tool_data} }
                             }    
     
     res = session.post(f"{hostname}/graphql", json=graphql_request)
@@ -80,7 +80,7 @@ def create_resource(uuid, name, pose, geometry, status, toolType, yardId, **othe
         print(res.status_code)
         
         
-def update_resource(uuid, name, pose, geometry, status, toolType, yardId, **other):
+def update_resource(uuid, name, pose, geometry, status, agentType, yardId, **other):
     tool_data = dict()
     if pose: 
         tool_data['x']=pose['x']
@@ -91,13 +91,13 @@ def update_resource(uuid, name, pose, geometry, status, toolType, yardId, **othe
     if yardId: tool_data['yardId'] = yardId
     if geometry: tool_data['geometry'] = json.dumps(geometry)
     if status: tool_data['status'] = status
-    if toolType: tool_data['toolType'] = toolType
+    if agentType: tool_data['agentType'] = agentType
     tool_data = {**tool_data, **other}
     
-    graphql_request = {"operationName": "updateToolByUuid",
+    graphql_request = {"operationName": "updateAgentByUuid",
                            "query":""" 
-                                    mutation updateToolByUuid($postMessage: UpdateToolByUuidInput!){
-                                        updateToolByUuid(input:$postMessage) { tool{id} }
+                                    mutation updateAgentByUuid($postMessage: UpdateAgentByUuidInput!){
+                                        updateAgentByUuid(input:$postMessage) { agent{id} }
                                     }""",
 
                             "variables": {"postMessage": { "uuid": uuid, "toolPatch": tool_data} }
