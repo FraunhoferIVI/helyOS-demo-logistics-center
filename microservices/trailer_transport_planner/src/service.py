@@ -69,7 +69,7 @@ def getPath():
                       'trailer_uuid': trailer_uuid,
                       'initial_truck_position': truck_position,
                       'initial_trailer_position': trailer_position,
-                      'orchestration': {'nex_step_request':{"drive_to_trailer": new_request_data }}
+                      'orchestration': {'next_step_request':{"drive_to_trailer": new_request_data }}
             }
     
 
@@ -90,7 +90,7 @@ def getPath():
 
         response =   {'status' : "ready", 
                       'results' : results,
-                      'orchestration': {'nex_step_request':{"drive_trailer_to_destiny": new_request_data }} }
+                      'orchestration': {'next_step_request':{"drive_trailer_to_destiny": new_request_data }} }
     
 
     if step == "return_trailer":
@@ -110,7 +110,7 @@ def getPath():
 
         response =   {'status' : "ready", 
                       'results' : results,
-                      'orchestration': {'nex_step_request':{"drive_trailer_to_origin": new_request_data }} }
+                      'orchestration': {'next_step_request':{"drive_trailer_to_origin": new_request_data }} }
         
 
     if step == "disconnect_return_truck":
@@ -129,7 +129,7 @@ def getPath():
 
         response =   {'status' : "ready", 
                       'results' : results,
-                      'orchestration': {'nex_step_request':{"drive_to_origin": new_request_data }} }
+                      'orchestration': {'next_step_request':{"drive_to_origin": new_request_data }} }
 
 
 
