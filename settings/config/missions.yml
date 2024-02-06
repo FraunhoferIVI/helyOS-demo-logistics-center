@@ -89,15 +89,15 @@ missions:
       settings: >
                 {
                   "autotruck_app": {
-                    "MC2": {
+                    "MC1": {
                       "runMission": "transport",
                       "buttonLabel": "Move Trailer",
                       "inputMessage": "Type the trailer uuid",
                       "inputVariable": "trailer_uuid",
                       "defaultRequest": {
-                        "tool_id": "$agentId$"
+                        "agent_id": "$agentId$"
                       }
                     }
-                  }
+                   }
                 }
       

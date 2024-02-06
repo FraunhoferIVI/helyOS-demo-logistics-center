@@ -20,13 +20,13 @@ def convert_to_trucktrix_format(trajectory):
         autotruck_path['payload']['tasks'][0]['payload']['operations'][0]['payload']['data_payload']['steps'][i]['step']['vehicles'] = [{}]
         autotruck_path['payload']['tasks'][0]['payload']['operations'][0]['payload']['data_payload']['steps'][i]['step']['vehicles'][0]['vehicle'] = {}
         autotruck_path['payload']['tasks'][0]['payload']['operations'][0]['payload']['data_payload']['steps'][i]['step']['vehicles'][0]['vehicle']['position'] = [trajectory[i]['x'], trajectory[i]['y']]
-        autotruck_path['payload']['tasks'][0]['payload']['operations'][0]['payload']['data_payload']['steps'][i]['step']['vehicles'][0]['vehicle']['orientation'] = trajectory[i]['orientations'][0]*1000
+        autotruck_path['payload']['tasks'][0]['payload']['operations'][0]['payload']['data_payload']['steps'][i]['step']['vehicles'][0]['vehicle']['orientation'] = trajectory[i]['orientations'][0]
 
         if len(trajectory[i]['orientations']) == 2:
              autotruck_path['payload']['tasks'][0]['payload']['operations'][0]['payload']['data_payload']['steps'][i]['step']['vehicles'].append({})
              autotruck_path['payload']['tasks'][0]['payload']['operations'][0]['payload']['data_payload']['steps'][i]['step']['vehicles'][1]['vehicle'] = {}
              autotruck_path['payload']['tasks'][0]['payload']['operations'][0]['payload']['data_payload']['steps'][i]['step']['vehicles'][1]['vehicle']['position'] = [trajectory[i]['x'], trajectory[i]['y']]
-             autotruck_path['payload']['tasks'][0]['payload']['operations'][0]['payload']['data_payload']['steps'][i]['step']['vehicles'][1]['vehicle']['orientation'] = trajectory[i]['orientations'][1]*1000
+             autotruck_path['payload']['tasks'][0]['payload']['operations'][0]['payload']['data_payload']['steps'][i]['step']['vehicles'][1]['vehicle']['orientation'] = trajectory[i]['orientations'][1]
 
     return autotruck_path
 

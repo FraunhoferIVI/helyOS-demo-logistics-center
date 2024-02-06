@@ -43,26 +43,26 @@ def getPath():
 
     step = context['orchestration']['current_step']
 
-    tool_id = request_data['tool_id']
+    agent_id = request_data['agent_id']
 
 
     if step == "prepare_mission":
         # Get truck data
-        helyos_tools = context['tools'] # contains all data about the agent (tool)
-        truck = next((tool for tool in helyos_tools if tool['id'] == str(tool_id)), None) # find agent in context
+        helyos_agents = context['agents'] # contains all data about the agent (tool)
+        truck = next((tool for tool in helyos_agents if tool['id'] == str(agent_id)), None) # find agent in context
         truck_position = {**truck['pose']} 
 
         # Get trailer data
         trailer_uuid = request_data['trailer_uuid']
-        helyos_tools = context['tools'] # contains all data about the agent (tool)
-        trailer = next((tool for tool in helyos_tools if tool['uuid'] == str(trailer_uuid)), None) # find agent in context
+        helyos_agents = context['agents'] # contains all data about the agent (tool)
+        trailer = next((tool for tool in helyos_agents if tool['uuid'] == str(trailer_uuid)), None) # find agent in context
         trailer_position = trailer['pose']
 
         # Set path planner request
         destination = {**trailer_position}
         destination['x'] = destination['x'] + TRAILER_CONNECTION_DISTANCE*math.cos(destination['orientations'][0]/1000)
         destination['y'] = destination['y'] + TRAILER_CONNECTION_DISTANCE*math.sin(destination['orientations'][0]/1000)
-        new_request_data = {'tool_id': tool_id, **destination}
+        new_request_data = {'agent_id': agent_id, **destination}
 
         response =  { 'status': "ready",
                       'results': [],
@@ -80,13 +80,13 @@ def getPath():
         prepare_mission_step = findStep(dependencies, 'prepare_mission')
 
         # Add new assignments to previous  mission
-        assignment_connect_to_trailer = {'tool_id': tool_id, 'assignment':  {'operation': f"connect_trailer {prepare_mission_step['trailer_uuid']}"}}
+        assignment_connect_to_trailer = {'agent_id': agent_id, 'assignment':  {'operation': f"connect_trailer {prepare_mission_step['trailer_uuid']}"}}
         results = [assignment_connect_to_trailer]
 
         # Set path planner request
         start_position = prepare_mission_step['initial_trailer_position']
         destination = prepare_mission_step['initial_truck_position']
-        new_request_data = {'tool_id': tool_id, 'initial_position': start_position, **destination}
+        new_request_data = {'agent_id': agent_id, 'initial_position': start_position, **destination}
 
         response =   {'status' : "ready", 
                       'results' : results,
@@ -106,7 +106,7 @@ def getPath():
         destination = prepare_mission_step['initial_trailer_position']
         destination['x'] = destination['x'] + TRAILER_CONNECTION_DISTANCE*math.cos(destination['orientations'][0]/1000)
         destination['y'] = destination['y'] + TRAILER_CONNECTION_DISTANCE*math.sin(destination['orientations'][0]/1000)
-        new_request_data = {'tool_id': tool_id, 'initial_position': start_position, **destination}
+        new_request_data = {'agent_id': agent_id, 'initial_position': start_position, **destination}
 
         response =   {'status' : "ready", 
                       'results' : results,
@@ -119,13 +119,13 @@ def getPath():
         prepare_mission_step = findStep(dependencies, 'prepare_mission')
 
         # Add new assignments to mission
-        assignment_disconnect_to_trailer = {'tool_id': tool_id, 'assignment':  {'operation': f"disconnect_trailer"}}
+        assignment_disconnect_to_trailer = {'agent_id': agent_id, 'assignment':  {'operation': f"disconnect_trailer"}}
         results = [assignment_disconnect_to_trailer]
 
         # Set path planner request
         start_position = prepare_mission_step['initial_trailer_position']
         destination = prepare_mission_step['initial_truck_position']
-        new_request_data = {'tool_id': tool_id, 'initial_position': start_position, **destination}
+        new_request_data = {'agent_id': agent_id, 'initial_position': start_position, **destination}
 
         response =   {'status' : "ready", 
                       'results' : results,

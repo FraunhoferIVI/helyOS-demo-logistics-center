@@ -8,7 +8,7 @@ services:
 # ============================================================================
 
     yard_automation_app:
-        image: autotruck/autotruck_webclient:2.0.0
+        image: autotruck/autotruck_webclient:2.0.3
 
         ports: 
             - 3080:3080            
@@ -82,7 +82,7 @@ services:
 
 
     agent_simulator_1:
-        image: helyosframework/helyos_agent_slim_simulator:0.7.4
+        image: helyosframework/helyos_agent_slim_simulator:0.7.5
 
         volumes:
             - ./geometry_tractor.json:/app/geometry.json
@@ -91,7 +91,7 @@ services:
 
             # AGENT ID
             - UUID=Ab34069fc5-fdgs-434b-b87e-f19c5435113 
-            - ASSIGNMENT_FORMAT=autotruck-path  # fixed | trajectory | straight_to_destination | autotruck-path 
+            - ASSIGNMENT_FORMAT=trucktrix-path  # fixed | trajectory | straight_to_destination | trucktrix-path 
             - NAME=MY_TRACTOR
             - X0=-28000
             - Y0=29000
@@ -123,7 +123,7 @@ services:
 
 
     agent_simulator_2:
-        image: helyosframework/helyos_agent_slim_simulator:0.7.4
+        image: helyosframework/helyos_agent_slim_simulator:0.7.5
 
         volumes:
             - ./geometry_truck.json:/app/geometry.json
@@ -132,7 +132,7 @@ services:
 
             # AGENT ID
             - UUID=Bb34069fc5-fdgs-434b-b87e-f19c5435113 
-            - ASSIGNMENT_FORMAT=autotruck-path  # fixed | trajectory | straight_to_destination | autotruck-path 
+            - ASSIGNMENT_FORMAT=trucktrix-path  # fixed | trajectory | straight_to_destination | trucktrix-path
             - NAME=MY_TRUCK
             - X0=-30000
             - Y0=10000

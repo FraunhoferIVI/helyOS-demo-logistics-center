@@ -38,7 +38,7 @@ session.headers.update({ "Authorization": f"Bearer {authToken}"})
 
 ## CRUDE functions
 
-def list_tools(uuid):
+def list_agents(uuid):
     graphql_request = {"operationName": "allAgents",
                        "query":""" 
                                 query allAgents($condition: AgentCondition!) {
@@ -109,7 +109,7 @@ def update_resource(uuid, name, pose, geometry, status, agentType, yardId, **oth
         
 
 def create_or_update_resource(uuid, *arg, **others):
-    res = list_tools(uuid)
+    res = list_agents(uuid)
     if len(res):
         print('update', uuid)
         return update_resource(uuid, *arg, **others)
@@ -128,25 +128,25 @@ with open('geometry_trailer.json', 'r') as f:
 try_again = True
 while try_again:
     try:
-        create_or_update_resource("swapbody_1",  "swapbody_1", {'x':-26833,'y':500, 'orientations':[2876]}, 
+        create_or_update_resource("trailer1",  "trailer1", {'x':-26833,'y':500, 'orientations':[2876]}, 
                                 trailer_geometry, "free","trailer", yardId,
                                 factsheet= json.dumps({'current_gate': "G21"}),
                                 acknowledgeReservation=False, agentClass='tool')
 
 
-        create_or_update_resource("swapbody_2",  "swapbody_2", {'x':-28490,'y':-6266, 'orientations':[2876]}, 
+        create_or_update_resource("trailer2",  "trailer2", {'x':-28490,'y':-6266, 'orientations':[2876]}, 
                                 trailer_geometry, "free", "trailer", yardId,
                                 factsheet= json.dumps({'current_gate': "G22"}),
                                 acknowledgeReservation=False, agentClass='tool')
                                 
 
-        create_or_update_resource("trailer_1",  "trailer_1", {'x':-29884,'y':-9967, 'orientations':[2876]}, 
+        create_or_update_resource("trailer3",  "trailer3", {'x':-29884,'y':-9967, 'orientations':[2876]}, 
                                 trailer_geometry, "free", "trailer", yardId,
                                 factsheet= json.dumps({'current_gate': "G23"}),
                                 acknowledgeReservation=False, agentClass='tool')
 
 
-        create_or_update_resource("trailer_2",  "trailer_2", {'x':-30323,'y':-13940, 'orientations':[2876]}, 
+        create_or_update_resource("trailer4",  "trailer4", {'x':-30323,'y':-13940, 'orientations':[2876]}, 
                                 trailer_geometry, "free", "trailer", yardId,
                                 factsheet= json.dumps({'current_gate': "G24"}),
                                 acknowledgeReservation=False, agentClass='tool')
