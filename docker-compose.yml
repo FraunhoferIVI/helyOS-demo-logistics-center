@@ -71,6 +71,42 @@ services:
 
 
 
+    pick_drop_park_service:
+        build: 
+            context: ./microservices/pick_drop_service
+            dockerfile: Dockerfile
+
+        container_name: pick_drop_park_service
+
+        ports:
+        - "9200:9200"
+
+        restart: always
+
+        networks:
+        - control-tower-net
+
+        volumes:
+            - ./microservices/pick_drop_service/:/app
+
+
+    map_service:
+        build: 
+            context: ./microservices/simplejson_map_server
+            dockerfile: Dockerfile
+
+        container_name: map_service
+
+        ports:
+        - "9300:9300"
+
+        restart: always
+
+        networks:
+        - control-tower-net
+
+        volumes:
+            - ./microservices/simplejson_map_server/:/app
 
 
 
@@ -183,7 +219,7 @@ services:
 
 # # =================================================================================
 # # =================================================================================
-# #     MOCKING EXTERNAL RESOURCE MANAGER TO PROVIDE TRAILER AND CONTAINERS POSITION
+# #     MOCKING EXTERNAL RESOURCE MANAGER TO PROVIDE TRAILERS AND CONTAINERS POSITION
 # # =================================================================================
 # # =================================================================================
 

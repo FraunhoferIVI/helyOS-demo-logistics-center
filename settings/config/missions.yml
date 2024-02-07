@@ -16,6 +16,71 @@ missions:
             override_config: "{}"
 
 
+    map_loading:
+      description: yard map
+      maxagents: 1
+      recipe:
+        steps:
+          - step: A
+            request_order: 1
+            service_type: target_postitions
+            dependencies: '[]'
+            apply_result: true
+            override_config: '{}'
+
+
+    park_to_target:
+      maxagents: 2
+      description: "drive to pick up or drop a trailer"
+      settings: >
+            {}
+        
+      recipe:
+          steps:
+            - step: "prepare_mission"
+              service_type: "transport"
+              request_order: 1
+              apply_result: false
+              override_config: "{}"
+
+            - step: "drive_the_path"
+              service_type: "drive"
+              request_order: 2
+              dependencies: '["prepare_mission"]'
+              apply_result: true
+              override_config: "{}"
+
+
+    pick_drop_target:
+      maxagents: 2
+      description: "drive to pick up or drop a trailer"
+      settings: >
+            {}
+        
+      recipe:
+          steps:
+            - step: "prepare_mission"
+              service_type: "transport"
+              request_order: 1
+              apply_result: false
+              override_config: "{}"
+
+            - step: "drive_the_path"
+              service_type: "drive"
+              request_order: 2
+              dependencies: '["prepare_mission"]'
+              apply_result: true
+              override_config: "{}"
+
+            - step: "connect_or_disconnect_trailer"
+              service_type: "pick_drop"
+              request_order: 3
+              apply_result: true
+              dependencies: '["prepare_mission", "drive_the_path"]'
+              override_config: "{}"
+
+          
+
     transport:
       maxagents: 2
       description: "move trailer around and return to the initial position"
@@ -89,15 +154,82 @@ missions:
       settings: >
                 {
                   "autotruck_app": {
-                    "MC1": {
-                      "runMission": "transport",
-                      "buttonLabel": "Move Trailer",
-                      "inputMessage": "Type the trailer uuid",
-                      "inputVariable": "trailer_uuid",
+
+                    "MA1": {
+                      "runMission": "map_loading",
+                      "buttonLabel": "Start here",
+                      "requireAgent": false,
+                      "inputMessage": "This will Load the map with the name:",
+                      "inputVariable": "map_name",
+                      "defaultInputValue": "yard_gates",
                       "defaultRequest": {
                         "agent_id": "$agentId$"
                       }
+                    },
+
+                    "MA2": {
+                      "runMission": "transport",
+                      "buttonLabel": "Move Around",
+                      "inputMessage": "Type the trailer uuid",
+                      "inputVariable": "trailer_uuid",
+                      "requireAgent": true,
+                      "defaultRequest": {
+                        "agent_id": "$agentId$"
+                      }
+                    },
+
+                    "MB1": {
+                      "runMission": "pick_drop_target",
+                      "buttonLabel": "Pick Load at",
+                      "backgroundColor": "#4472C4",
+                      "inputMessage": "Type the gate where the trailer is: G10 to G16",
+                      "inputVariable": "target_name",
+                      "requireAgent": true,
+                      "defaultRequest": {
+                          "agent_id": "$agentId$",
+                          "operation": "pick"   
+                      }
+                    },
+
+                    "MB2": {
+                      "runMission": "pick_drop_target",
+                      "buttonLabel": "Pick the Load",
+                      "backgroundColor": "#4472C4",
+                      "inputMessage": "Type the name of the trailer",
+                      "inputVariable": "trailer_uuid",
+                      "requireAgent": true,
+                      "defaultRequest": {
+                          "agent_id": "$agentId$",
+                          "operation": "pick"   
+                      }
+                    },
+
+                    "MB3": {
+                      "runMission": "pick_drop_target",
+                      "buttonLabel": "Drop to",
+                      "backgroundColor": "#AA72C4",
+                      "inputMessage": "Type the gate to drop, e.g. G10",
+                      "inputVariable": "target_name",
+                      "requireAgent": true,
+                      "defaultRequest": {
+                          "agent_id": "$agentId$",
+                          "operation": "drop"   
+                      }
+                    },
+
+                    "MB4": {
+                      "runMission": "park_to_target",
+                      "buttonLabel": "Park to",
+                      "backgroundColor": "#4472C4",
+                      "inputMessage": "Type the gate to park, e.g. G20",
+                      "inputVariable": "target_name",
+                      "requireAgent": true,
+                      "defaultRequest": {
+                          "agent_id": "$agentId$",
+                          "operation": "park"   
+                      }
                     }
-                   }
+                  }
+
                 }
       

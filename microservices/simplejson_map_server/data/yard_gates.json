@@ -1,0 +1,622 @@
+{
+    "id": "1",
+    "mapObjects": [
+        {
+            "id": "1",
+            "name": "G10",
+            "data": {
+                "geometry_type": "polygon",
+                "top": 9999,
+                "bottom": 0,
+                "points": [
+                    [
+                        -14188.202775316313,
+                        6763.946581631899
+                    ],
+                    [
+                        -19042.577893997077,
+                        8245.165885426104
+                    ],
+                    [
+                        -18437.69674061332,
+                        10217.567583546042
+                    ],
+                    [
+                        -13583.323335449677,
+                        8736.349364742637
+                    ]
+                ]
+            },
+            "metadata": {
+                "x": -16312.950449995697,
+                "y": 8490.75677152723,
+                "lat": 51.05327075045799,
+                "lon": 13.702871181778821,
+                "anchor": "center",
+                "targetName": "G10",
+                "targetType": "parking",
+                "orientation": 2850.0490071139893,
+                "orientations": [
+                    2850.0490071139893
+                ]
+            },
+            "dataFormat": "trucktrix-map",
+            "type": "target",
+            "createdAt": "2024-02-07T14:13:31.623",
+            "modifiedAt": "2024-02-07T14:17:52.663",
+            "deletedAt": null,
+            "yardId": "1",
+            "__typename": "MapObject"
+        },
+        {
+            "id": "2",
+            "name": "G11",
+            "data": {
+                "geometry_type": "polygon",
+                "top": 9999,
+                "bottom": 0,
+                "points": [
+                    [
+                        -15480.232284753583,
+                        3634.5570450648665
+                    ],
+                    [
+                        -20289.662109687924,
+                        5102.063158527017
+                    ],
+                    [
+                        -19698.527461325284,
+                        7029.638345353305
+                    ],
+                    [
+                        -14889.099292980973,
+                        5562.133274972439
+                    ]
+                ]
+            },
+            "metadata": {
+                "x": -17589.38054618193,
+                "y": 5332.097390666604,
+                "lat": 51.05324215167673,
+                "lon": 13.70285376837886,
+                "anchor": "center",
+                "targetName": "G11",
+                "targetType": "parking",
+                "orientation": 2850.0490071139893,
+                "orientations": [
+                    2850.0490071139893
+                ]
+            },
+            "dataFormat": "trucktrix-map",
+            "type": "target",
+            "createdAt": "2024-02-07T14:13:31.623",
+            "modifiedAt": "2024-02-07T14:17:52.663",
+            "deletedAt": null,
+            "yardId": "1",
+            "__typename": "MapObject"
+        },
+        {
+            "id": "3",
+            "name": "G12",
+            "data": {
+                "geometry_type": "polygon",
+                "top": 9999,
+                "bottom": 0,
+                "points": [
+                    [
+                        -16530.63640842447,
+                        42.99611505120993
+                    ],
+                    [
+                        -21340.06933873752,
+                        1510.5040529742837
+                    ],
+                    [
+                        -20748.93392546801,
+                        3438.080344349146
+                    ],
+                    [
+                        -15939.502651337534,
+                        1970.5734588205814
+                    ]
+                ]
+            },
+            "metadata": {
+                "x": -18639.78584011784,
+                "y": 1740.5379256233573,
+                "lat": 51.05320969685765,
+                "lon": 13.702839687726815,
+                "anchor": "center",
+                "targetName": "G12",
+                "targetType": "parking",
+                "orientation": 2850.0490071139893,
+                "orientations": [
+                    2850.0490071139893
+                ]
+            },
+            "dataFormat": "trucktrix-map",
+            "type": "target",
+            "createdAt": "2024-02-07T14:13:31.623",
+            "modifiedAt": "2024-02-07T14:17:52.663",
+            "deletedAt": null,
+            "yardId": "1",
+            "__typename": "MapObject"
+        },
+        {
+            "id": "4",
+            "name": "G13",
+            "data": {
+                "geometry_type": "polygon",
+                "top": 9999,
+                "bottom": 0,
+                "points": [
+                    [
+                        -17345.223995682318,
+                        -3505.7724276557565
+                    ],
+                    [
+                        -22154.660053318366,
+                        -2038.2629400119185
+                    ],
+                    [
+                        -21563.5239687399,
+                        -110.68558227270842
+                    ],
+                    [
+                        -16754.08956751926,
+                        -1578.1940137967467
+                    ]
+                ]
+            },
+            "metadata": {
+                "x": -19454.37465561554,
+                "y": -1808.2293095067143,
+                "lat": 51.05317766407887,
+                "lon": 13.702828959993518,
+                "anchor": "center",
+                "targetName": "G13",
+                "targetType": "parking",
+                "orientation": 2850.0490071139893,
+                "orientations": [
+                    2850.0490071139893
+                ]
+            },
+            "dataFormat": "trucktrix-map",
+            "type": "target",
+            "createdAt": "2024-02-07T14:13:31.623",
+            "modifiedAt": "2024-02-07T14:17:52.663",
+            "deletedAt": null,
+            "yardId": "1",
+            "__typename": "MapObject"
+        },
+        {
+            "id": "5",
+            "name": "G14",
+            "data": {
+                "geometry_type": "polygon",
+                "top": 9999,
+                "bottom": 0,
+                "points": [
+                    [
+                        -18486.225476604886,
+                        -6908.404009416699
+                    ],
+                    [
+                        -23295.664437289815,
+                        -5440.892548300326
+                    ],
+                    [
+                        -22704.52756981831,
+                        -3513.3139733225107
+                    ],
+                    [
+                        -17895.09026595624,
+                        -4980.824392288923
+                    ]
+                ]
+            },
+            "metadata": {
+                "x": -20595.377196441405,
+                "y": -5210.859294980764,
+                "lat": 51.053146893409966,
+                "lon": 13.702813539654786,
+                "anchor": "center",
+                "targetName": "G14",
+                "targetType": "parking",
+                "orientation": 2850.0490071139893,
+                "orientations": [
+                    2850.0490071139893
+                ]
+            },
+            "dataFormat": "trucktrix-map",
+            "type": "target",
+            "createdAt": "2024-02-07T14:13:31.623",
+            "modifiedAt": "2024-02-07T14:17:52.663",
+            "deletedAt": null,
+            "yardId": "1",
+            "__typename": "MapObject"
+        },
+        {
+            "id": "6",
+            "name": "G15",
+            "data": {
+                "geometry_type": "polygon",
+                "top": 9999,
+                "bottom": 0,
+                "points": [
+                    [
+                        -19627.239037596155,
+                        -10264.604571275413
+                    ],
+                    [
+                        -24436.680852726568,
+                        -8797.09087125957
+                    ],
+                    [
+                        -23845.54320020834,
+                        -6869.510715827346
+                    ],
+                    [
+                        -19036.103042017203,
+                        -8337.023369036615
+                    ]
+                ]
+            },
+            "metadata": {
+                "x": -21736.391792306677,
+                "y": -8567.0579476282,
+                "lat": 51.05311654015996,
+                "lon": 13.702798107500552,
+                "anchor": "center",
+                "targetName": "G15",
+                "targetType": "parking",
+                "orientation": 2850.0490071139893,
+                "orientations": [
+                    2850.0490071139893
+                ]
+            },
+            "dataFormat": "trucktrix-map",
+            "type": "target",
+            "createdAt": "2024-02-07T14:13:31.623",
+            "modifiedAt": "2024-02-07T14:17:52.663",
+            "deletedAt": null,
+            "yardId": "1",
+            "__typename": "MapObject"
+        },
+        {
+            "id": "7",
+            "name": "G16",
+            "data": {
+                "geometry_type": "polygon",
+                "top": 9999,
+                "bottom": 0,
+                "points": [
+                    [
+                        -20768.260793935042,
+                        -13666.97348561138
+                    ],
+                    [
+                        -25577.70551397698,
+                        -12199.457964859903
+                    ],
+                    [
+                        -24986.567083222326,
+                        -10271.876830607653
+                    ],
+                    [
+                        -20177.12401924655,
+                        -11739.39131014049
+                    ]
+                ]
+            },
+            "metadata": {
+                "x": -22877.41461157566,
+                "y": -11969.425461255014,
+                "lat": 51.05308577184342,
+                "lon": 13.702782686846724,
+                "anchor": "center",
+                "targetName": "G16",
+                "targetType": "parking",
+                "orientation": 2850.0490071139893,
+                "orientations": [
+                    2850.0490071139893
+                ]
+            },
+            "dataFormat": "trucktrix-map",
+            "type": "target",
+            "createdAt": "2024-02-07T14:13:31.623",
+            "modifiedAt": "2024-02-07T14:17:52.663",
+            "deletedAt": null,
+            "yardId": "1",
+            "__typename": "MapObject"
+        },
+        {
+            "id": "8",
+            "name": "G17",
+            "data": {
+                "geometry_type": "polygon",
+                "top": 9999,
+                "bottom": 0,
+                "points": [
+                    [
+                        -21950.83973230794,
+                        -16740.780792199075
+                    ],
+                    [
+                        -26715.338941896334,
+                        -15286.978408694267
+                    ],
+                    [
+                        -26124.199759564362,
+                        -13359.396099112928
+                    ],
+                    [
+                        -21359.702191432007,
+                        -14813.197444193065
+                    ]
+                ]
+            },
+            "metadata": {
+                "x": -24037.52040938707,
+                "y": -15050.088742747903,
+                "lat": 51.053057892660206,
+                "lon": 13.702766913202545,
+                "anchor": "center",
+                "targetName": "G17",
+                "targetType": "parking",
+                "orientation": 2850.0490071139893,
+                "orientations": [
+                    2850.0490071139893
+                ]
+            },
+            "dataFormat": "trucktrix-map",
+            "type": "target",
+            "createdAt": "2024-02-07T14:13:31.623",
+            "modifiedAt": "2024-02-07T14:17:52.663",
+            "deletedAt": null,
+            "yardId": "1",
+            "__typename": "MapObject"
+        },
+        {
+            "id": "9",
+            "name": "G20",
+            "data": {
+                "geometry_type": "polygon",
+                "top": 9999,
+                "bottom": 0,
+                "points": [
+                    [
+                        40540.48102692468,
+                        12599.16411433369
+                    ],
+                    [
+                        35775.99321352318,
+                        14052.900816313922
+                    ],
+                    [
+                        36353.35902526276,
+                        15935.651110485196
+                    ],
+                    [
+                        41117.845236265566,
+                        14481.915418058634
+                    ]
+                ]
+            },
+            "metadata": {
+                "x": 38446.91935129231,
+                "y": 14267.407178878784,
+                "lat": 51.05333135004504,
+                "lon": 13.70365081946387,
+                "anchor": "center",
+                "targetName": "G20",
+                "targetType": "parking",
+                "orientation": 2850.0490071139893,
+                "orientations": [
+                    2850.0490071139893
+                ]
+            },
+            "dataFormat": "trucktrix-map",
+            "type": "target",
+            "createdAt": "2024-02-07T14:16:56.263",
+            "modifiedAt": "2024-02-07T14:17:52.663",
+            "deletedAt": null,
+            "yardId": "1",
+            "__typename": "MapObject"
+        },
+        {
+            "id": "10",
+            "name": "G21",
+            "data": {
+                "geometry_type": "polygon",
+                "top": 9999,
+                "bottom": 0,
+                "points": [
+                    [
+                        39445.63749968074,
+                        9148.854204453528
+                    ],
+                    [
+                        34681.146754242945,
+                        10602.592829614878
+                    ],
+                    [
+                        35258.5133179673,
+                        12485.344310291111
+                    ],
+                    [
+                        40023.00246106461,
+                        11031.6066974774
+                    ]
+                ]
+            },
+            "metadata": {
+                "x": 37352.0747339353,
+                "y": 10817.098824307323,
+                "lat": 51.05330015815041,
+                "lon": 13.703636068889708,
+                "anchor": "center",
+                "targetName": "G21",
+                "targetType": "parking",
+                "orientation": 2850.0490071139893,
+                "orientations": [
+                    2850.0490071139893
+                ]
+            },
+            "dataFormat": "trucktrix-map",
+            "type": "target",
+            "createdAt": "2024-02-07T14:16:56.263",
+            "modifiedAt": "2024-02-07T14:17:52.663",
+            "deletedAt": null,
+            "yardId": "1",
+            "__typename": "MapObject"
+        },
+        {
+            "id": "11",
+            "name": "G22",
+            "data": {
+                "geometry_type": "polygon",
+                "top": 9999,
+                "bottom": 0,
+                "points": [
+                    [
+                        38396.06288616778,
+                        5604.056212119758
+                    ],
+                    [
+                        33631.569108052645,
+                        7057.796685025096
+                    ],
+                    [
+                        34208.93641602015,
+                        8940.549324266613
+                    ],
+                    [
+                        38973.428591445554,
+                        7486.809860914946
+                    ]
+                ]
+            },
+            "metadata": {
+                "x": 36302.49897617614,
+                "y": 7272.302335128188,
+                "lat": 51.05326812395752,
+                "lon": 13.703621987764997,
+                "anchor": "center",
+                "targetName": "G22",
+                "targetType": "parking",
+                "orientation": 2850.0490071139893,
+                "orientations": [
+                    2850.0490071139893
+                ]
+            },
+            "dataFormat": "trucktrix-map",
+            "type": "target",
+            "createdAt": "2024-02-07T14:16:56.263",
+            "modifiedAt": "2024-02-07T14:17:52.663",
+            "deletedAt": null,
+            "yardId": "1",
+            "__typename": "MapObject"
+        },
+        {
+            "id": "12",
+            "name": "G23",
+            "data": {
+                "geometry_type": "polygon",
+                "top": 9999,
+                "bottom": 0,
+                "points": [
+                    [
+                        37257.37381062936,
+                        2341.892233118415
+                    ],
+                    [
+                        32492.87728901254,
+                        3795.6347158178687
+                    ],
+                    [
+                        33070.24534844095,
+                        5678.388606756926
+                    ],
+                    [
+                        37834.7402678919,
+                        4224.647129885852
+                    ]
+                ]
+            },
+            "metadata": {
+                "x": 35163.80890482105,
+                "y": 4010.139985010028,
+                "lat": 51.05323861657564,
+                "lon": 13.703606564590547,
+                "anchor": "center",
+                "targetName": "G23",
+                "targetType": "parking",
+                "orientation": 2850.0490071139893,
+                "orientations": [
+                    2850.0490071139893
+                ]
+            },
+            "dataFormat": "trucktrix-map",
+            "type": "target",
+            "createdAt": "2024-02-07T14:16:56.263",
+            "modifiedAt": "2024-02-07T14:17:52.663",
+            "deletedAt": null,
+            "yardId": "1",
+            "__typename": "MapObject"
+        },
+        {
+            "id": "13",
+            "name": "G24",
+            "data": {
+                "geometry_type": "polygon",
+                "top": 9999,
+                "bottom": 0,
+                "points": [
+                    [
+                        36493.00909979502,
+                        -1020.2225148677826
+                    ],
+                    [
+                        31728.50964119425,
+                        433.5214076563716
+                    ],
+                    [
+                        32305.878318846226,
+                        2316.2762746214867
+                    ],
+                    [
+                        37070.37617499009,
+                        862.533369101584
+                    ]
+                ]
+            },
+            "metadata": {
+                "x": 34399.443034490105,
+                "y": 648.0264430865645,
+                "lat": 51.053208269848184,
+                "lon": 13.703596505834117,
+                "anchor": "center",
+                "targetName": "G24",
+                "targetType": "parking",
+                "orientation": 2850.0490071139893,
+                "orientations": [
+                    2850.0490071139893
+                ]
+            },
+            "dataFormat": "trucktrix-map",
+            "type": "target",
+            "createdAt": "2024-02-07T14:16:56.263",
+            "modifiedAt": "2024-02-07T14:17:52.663",
+            "deletedAt": null,
+            "yardId": "1",
+            "__typename": "MapObject"
+        }
+    ],
+    "origin": {
+        "lat": 51.053197,
+        "lon": 13.703106,
+        "alt": 116
+    },
+    "dataFormat": "trucktrix-map"
+}
