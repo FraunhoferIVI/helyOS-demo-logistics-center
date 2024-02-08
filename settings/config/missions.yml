@@ -38,7 +38,7 @@ missions:
       recipe:
           steps:
             - step: "prepare_mission"
-              service_type: "transport"
+              service_type: "pick_drop_park"
               request_order: 1
               apply_result: false
               override_config: "{}"
@@ -60,7 +60,7 @@ missions:
       recipe:
           steps:
             - step: "prepare_mission"
-              service_type: "transport"
+              service_type: "pick_drop_park"
               request_order: 1
               apply_result: false
               override_config: "{}"
@@ -73,7 +73,7 @@ missions:
               override_config: "{}"
 
             - step: "connect_or_disconnect_trailer"
-              service_type: "pick_drop"
+              service_type: "pick_drop_park"
               request_order: 3
               apply_result: true
               dependencies: '["prepare_mission", "drive_the_path"]'
@@ -172,6 +172,7 @@ missions:
                       "buttonLabel": "Move Around",
                       "inputMessage": "Type the trailer uuid",
                       "inputVariable": "trailer_uuid",
+                      "defaultInputValue": "trailer1",
                       "requireAgent": true,
                       "defaultRequest": {
                         "agent_id": "$agentId$"
@@ -180,11 +181,12 @@ missions:
 
                     "MB1": {
                       "runMission": "pick_drop_target",
-                      "buttonLabel": "Pick Load at",
-                      "backgroundColor": "#4472C4",
-                      "inputMessage": "Type the gate where the trailer is: G10 to G16",
+                      "buttonLabel": "Pick load at the gate",
+                      "backgroundColor": "#4400CC",
+                      "inputMessage": "Type the gate where the trailer is: G10 to G17. (be sure the gates are loaded, press [Start here])",
                       "inputVariable": "target_name",
                       "requireAgent": true,
+                      "defaultInputValue": "G15",
                       "defaultRequest": {
                           "agent_id": "$agentId$",
                           "operation": "pick"   
@@ -193,10 +195,11 @@ missions:
 
                     "MB2": {
                       "runMission": "pick_drop_target",
-                      "buttonLabel": "Pick the Load",
+                      "buttonLabel": "Pick load by name",
                       "backgroundColor": "#4472C4",
                       "inputMessage": "Type the name of the trailer",
                       "inputVariable": "trailer_uuid",
+                      "defaultInputValue": "trailer1",
                       "requireAgent": true,
                       "defaultRequest": {
                           "agent_id": "$agentId$",
@@ -206,10 +209,11 @@ missions:
 
                     "MB3": {
                       "runMission": "pick_drop_target",
-                      "buttonLabel": "Drop to",
-                      "backgroundColor": "#AA72C4",
-                      "inputMessage": "Type the gate to drop, e.g. G10",
+                      "buttonLabel": "Drop to gate",
+                      "backgroundColor": "#AA0204",
+                      "inputMessage": "Type the gate to drop, e.g. G10 - G17",
                       "inputVariable": "target_name",
+                      "defaultInputValue": "G10",
                       "requireAgent": true,
                       "defaultRequest": {
                           "agent_id": "$agentId$",
@@ -221,7 +225,8 @@ missions:
                       "runMission": "park_to_target",
                       "buttonLabel": "Park to",
                       "backgroundColor": "#4472C4",
-                      "inputMessage": "Type the gate to park, e.g. G20",
+                      "inputMessage": "Type the gate to park, e.g. G20 - G24",
+                      "defaultInputValue": "G20",
                       "inputVariable": "target_name",
                       "requireAgent": true,
                       "defaultRequest": {

@@ -127,7 +127,7 @@ services:
 
             # AGENT ID
             - UUID=Ab34069fc5-fdgs-434b-b87e-f19c5435113 
-            - ASSIGNMENT_FORMAT=trucktrix-path  # fixed | trajectory | straight_to_destination | trucktrix-path 
+            - ASSIGNMENT_FORMAT=trajectory  # fixed | trajectory | straight_to_destination | trucktrix-path 
             - NAME=MY_TRACTOR
             - X0=-28000
             - Y0=29000
@@ -168,7 +168,7 @@ services:
 
             # AGENT ID
             - UUID=Bb34069fc5-fdgs-434b-b87e-f19c5435113 
-            - ASSIGNMENT_FORMAT=trucktrix-path  # fixed | trajectory | straight_to_destination | trucktrix-path
+            - ASSIGNMENT_FORMAT=trajectory  # fixed | trajectory | straight_to_destination | trucktrix-path
             - NAME=MY_TRUCK
             - X0=-30000
             - Y0=10000

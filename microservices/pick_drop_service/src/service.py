@@ -4,7 +4,8 @@ from flask import Flask, jsonify,  request
 app = Flask(__name__)
 
 TRAILER_CONNECTION_DISTANCE = 3550
-
+TRAILER_CONNECTION_GATE_DISTANCE = 3550
+TRAILER_CONNECTION_DROP_DISTANCE = 8000
 
 @app.route("/health")
 def health():
@@ -32,8 +33,8 @@ def main():
     
     agent_id = request_data['agent_id']
     operation = request_data['operation']
-    trailer_uuid = request_data('trailer_uuid', None)
-    target_name = request_data('target_name', None)
+    trailer_uuid = request_data.get('trailer_uuid', None)
+    target_name = request_data.get('target_name', None)
 
     # Error handling
     if operation == "pick" and trailer_uuid is None and target_name is None:
@@ -56,11 +57,13 @@ def main():
         if operation == "pick":          
             if trailer_uuid is None:
                 target_name = request_data['target_name']
-                trailer_uuid = get_neareset_trailer(target_name, context)
+                trailer, distance = get_neareset_trailer(target_name, context)
+                trailer_uuid = trailer['uuid']
+            else:
+                helyos_agents = context['agents'] # contains all data about the agent (tool)
+                trailer = next((tool for tool in helyos_agents if tool['uuid'] == str(trailer_uuid)), None) # find agent in context
 
-            # Get trailer data from context
-            helyos_agents = context['agents'] # contains all data about the agent (tool)
-            trailer = next((tool for tool in helyos_agents if tool['uuid'] == str(trailer_uuid)), None) # find agent in context
+            # Get trailer data from context         
             trailer_position = trailer['pose']
 
             # Set path planner request data to drive to trailer
@@ -86,10 +89,11 @@ def main():
             trailer_uuid = None    
             
             # Set path planner request data to drive to target
+            positon_offset = TRAILER_CONNECTION_DROP_DISTANCE if operation == "drop" else TRAILER_CONNECTION_DISTANCE
             destination = {}
-            destination['x'] = target['metadata']['x']
-            destination['y'] = target['metadata']['y']
-            destination['orientation'] = target['metadata']['orientations'][0]
+            destination['x'] = target['metadata']['x'] + positon_offset*math.cos(target['metadata']['orientations'][0]/1000)
+            destination['y'] = target['metadata']['y'] + positon_offset*math.sin(target['metadata']['orientations'][0]/1000)
+            destination['orientations'] = target['metadata']['orientations']
             new_request_data = {'agent_id': agent_id, **destination}
 
             response =  { 'status': "ready",
@@ -139,7 +143,7 @@ def  get_neareset_trailer(target_name, context):
     target = next((t for t in targets if t['name'] == target_name), None) # find target in context
 
     helyos_agents = context['agents'] 
-    trailers = [obj for obj in helyos_agents if (obj['tool_type'] == 'trailer' or obj['tool_type'] == 'swapbody') ] # find all trailers in context
+    trailers = [obj for obj in helyos_agents if (obj['agent_type'] == 'trailer' or obj['agent_type'] == 'swapbody') ] # find all trailers in context
 
     x = target['metadata']['x']
     y = target['metadata']['y']
@@ -154,7 +158,7 @@ def  get_neareset_trailer(target_name, context):
     min_distance = min(distances)
 
     # get the trailer name with the smallest distance to the map object or select UNKNOWN trailer
-    if min_distance < 5000:
+    if min_distance < 50000:
         nereast_trailer = trailers[distances.index(min_distance)]  
     else:
         nereast_trailer = {'uuid':'UNKNOWN'}   

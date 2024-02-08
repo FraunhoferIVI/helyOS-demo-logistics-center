@@ -68,7 +68,7 @@ services:
       timeout: 180
 
       context:
-        map_data: false
+        map_data: true
         all_agents_data: true
         mission_agents_data: true
 
