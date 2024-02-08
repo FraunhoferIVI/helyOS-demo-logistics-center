@@ -38,6 +38,8 @@ docker-compose up -d
 
 *password*: admin
 
+click [Start here] button, and load the yard_gates.
+
 </br>
 
  ## To restart vehicle simulator
