@@ -1,0 +1,32 @@
+version: "3.5" 
+services:
+
+
+
+# ============================================================================
+# ============================================================================
+#                           PICK AND DROP PLANNER
+# ============================================================================
+# ============================================================================
+  microservice_pick_and_drop:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: local_planner_service
+
+    ports:
+      - "9200:9200"
+
+    restart: always
+
+    networks:
+      - control-tower-net
+
+    volumes:
+        - ./:/app
+
+networks:
+    control-tower-net:
+        name: control-tower-net
+        external: true

@@ -95,7 +95,7 @@ INSERT INTO public.map_objects VALUES (5, 1, '{"top": 1000000, "bottom": 0, "geo
 
 
 ALTER TABLE public.map_objects ENABLE TRIGGER ALL;
-SELECT pg_catalog.setval('public.shapes_id_seq', 8, true);
+SELECT pg_catalog.setval('public.map_objects_id_seq', 8, true);
 
 
 

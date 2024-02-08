@@ -59,3 +59,32 @@ services:
               "path_planner_apikey":"super_secret"}
 
 
+    pick_drop_park_service:
+      domain: "Assignment planner"  # Assignment planner | Map server | Storage server
+      type: "pick_drop_park"
+      url:     "http://pick_drop_park_service:9200/"
+      enable: true
+      apikey: "super_secret"
+      timeout: 180
+
+      context:
+        map_data: true
+        all_agents_data: true
+        mission_agents_data: true
+
+
+    map_service:
+      domain: "Map server"  # Assignment planner | Map server | Storage server
+      type: "target_postitions"
+      url:     "http://map_service:9300/"
+      enable: true
+      apikey: "super_secret"
+      timeout: 180
+
+      context:
+        map_data: false
+        all_agents_data: false
+        mission_agents_data: false
+        
+      config: >
+            {}

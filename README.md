@@ -9,8 +9,8 @@ For this local version, the TruckTrix&reg; service was substituted by a simple c
 
  ## Core features
   * Click in the map to set the final destination to drive.
-  * Use online TruckTrix&reg; path planner service to plan collision-free paths. (*)
-  * Alternatively, use local path planner to plan clothoid paths.
+  * Use local path planner to plan clothoid paths.
+  * Alternatively, use online TruckTrix&reg; path planner service to plan collision-free paths. (*)
   * helyOS is employed to integrate AutoTruck web app, path planners, message broker and the vehicle simulator.
   * Create different types of missions (must be registered in helyOS dashboard).
 
@@ -86,6 +86,8 @@ To utilize TruckTrix, it is necessary to request an API-key from Fraunhofer IVI 
 The API-key must be added in `settings/licenses/service_licenses.ini` or saved in the *trucktrix* API-key field in http://localhost:8080/dashboard/#/all-services.
 
 In the helyOS dashboard `Microservices` view, disable the `local_path_planner` and enable the TruckTrix service.
+
+Lastly, configure the vehicle simulator in docker-compose to accept trucktrix path format: ASSIGNMENT_FORMAT=trucktrix-path
 
 <br>
 

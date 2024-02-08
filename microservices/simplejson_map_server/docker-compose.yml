@@ -1,0 +1,25 @@
+version: "3.5" 
+services:
+
+  map_microservice:
+    build: 
+      context: .
+
+    image: safe20_map_server
+
+    ports:
+      - "9300:9300"
+
+    restart: always
+
+    volumes:
+        - ./:/app
+
+    networks:
+    - control-tower-net
+               
+  
+networks:
+    control-tower-net:
+        name: internal-network
+        external: true
