@@ -256,7 +256,7 @@ services:
 
 
     helyos_core:
-        image: helyosframework/helyos_core:2.0.1
+        image: helyosframework/helyos_core:2.0.2
 
         ports:
             - 5002:5002  # Websocket
