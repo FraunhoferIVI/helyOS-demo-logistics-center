@@ -1,5 +1,7 @@
 # AutoTruck - Yard Automation Demonstration
 
+**Note: This project has been moved to a new [repository](https://github.com/helyOSFramework/logistics-center-demo). Please visit the new repository for the latest updates.**
+
 The [AutoTruck project](https://www.ivi.fraunhofer.de/en/research-fields/autonomous-systems/autotruck.html) aimed for the automation of trucks in logistic centers.
 
 Its implementation was accomplished through the use of the [helyOS framework](https://helyos-manual.readthedocs.io/en/latest/) and the TruckTrix&reg; path planner.<br>
